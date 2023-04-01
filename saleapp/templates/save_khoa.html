@@ -1,0 +1,185 @@
+{% extends 'layout/base.html' %}
+
+
+{% block title %} Trang chu {% endblock %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/profile.css') }}"
+      rel="stylesheet"/>
+{%endblock%}
+{% block js %}
+
+{%endblock%}
+
+{% block content %}
+
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="{{profile.avatar}}" alt="Admin"
+                                 class="rounded-circle p-1 bg-primary" width="110">
+                            <div class="mt-3">
+                                <h4>{{profile.name}}</h4>
+                                <p class="text-secondary mb-1">{{profile.maSo}}</p>
+                                <p class="text-muted font-size-sm">{{profile.email}}</p>
+                                <button class="btn btn-primary">Xóa</button>
+                                <button class="btn btn-outline-primary">Message</button>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                         stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="feather feather-twitter me-2 icon-inline text-info">
+                                        <path d="M12 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm4.24 8.41l-4.24 4.24-4.24-4.24-1.41 1.41 4.24 4.24-4.24 4.24 1.41 1.41 4.24-4.24 4.24 4.24 1.41-1.41-4.24-4.24 4.24-4.24-1.41-1.41z"/>
+                                    </svg>
+                                    GPA
+                                </h6>
+                                <span class="text-secondary">{{profile.gpa}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24 " width="24" height="24"
+                                         stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="feather feather-twitter me-2 icon-inline text-info">
+                                        <path d="M7.5 4.5l-4 4 4 4c-1.5 1.5-2.5 3-3.5 5h5.5l5-5-3-3c1.5-1.5 2.5-3 3.5-5h-6.5zm8.5 0l-4 4 4 4h6.5c-1-2-2-3.5-3.5-5l3-3-5-5h-5.5v5z"/>
+                                    </svg>
+                                    Điểm rèn luyện
+                                </h6>
+                                <span class="text-secondary">{{profile.diemRL}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                         stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="feather feather-twitter me-2 icon-inline text-info">
+                                        <path d="M12 2l-5 5h3v5.5l-2.5 2.5 1.41 1.41 2.09-2.09v1.18h2v-1.18l2.09 2.09 1.41-1.41-2.5-2.5v-5.5h3l-5-5zm-5.71 7.71l-4.24 4.24 1.41 1.41 4.24-4.24-1.41-1.41zm12.83 0l-1.41 1.41 4.24 4.24 1.41-1.41-4.24-4.24zm-13.65 9.18l-1.41 1.41 2.12 2.12 1.41-1.41-2.12-2.12zm13.65 0l-2.12 2.12 1.41 1.41 2.12-2.12-1.41-1.41z"/>
+                                    </svg>
+                                    Điểm hệ 10
+                                </h6>
+                                <span class="text-secondary">{{profile.diemHeMuoi}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24 " width="24" height="24"
+                                         stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="feather feather-twitter me-2 icon-inline text-info">
+                                        <path d="M12 2.5l-6 9.5h12l-6-9.5zm-.6 11c-.2 0-.4-.1-.5-.2l-2.8-2.8 1.1-3.3c.1-.2.1-.4 0-.5-.1-.1-.3-.2-.5-.2h-3.5c-.2 0-.4.1-.5.2-.1.1-.2.3-.2.5l1.1 3.3-2.8 2.8c-.3.3-.3.8 0 1.1.2.2.5.3.8.3h3.5c.2 0 .4-.1.5-.2.1-.1.2-.3.2-.5l-1.1-3.3 2.8-2.8c.2-.2.2-.5 0-.7-.1-.1-.3-.2-.5-.2z"/>
+                                    </svg>
+                                    Xếp loại
+                                </h6>
+                                <span class="text-secondary">{{xh}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round"
+                                         class="feather feather-facebook me-2 icon-inline text-primary">
+                                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                                    </svg>
+                                    Facebook
+                                </h6>
+                                <a href="{{profile.facebook}}" class="text-secondary">{{profile.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <form action="/save_nganh" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h4 class="mb-0">Khoa</h4>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <select name="khoa" class="col-sm-12 text-secondary p-2">
+                                        {%for i in allKhoa%}
+                                        {%if profile.khoa == i.name%}
+                                        <option value="{{i.id}}" selected>{{i.name}}</option>
+                                        {%else%}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {%endif%}
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-between">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-4 text-secondary">
+                                    <a class="btn btn-secondary px-4" href="{{url_for('profile', profile_id=profile.maSo)}}">
+                                        Quay lại
+                                    </a>
+                                </div>
+                                <div class="col-sm-5 text-secondary pr-1">
+                                    <input type="submit" class="btn btn-primary px-4" value="Tiếp theo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="d-flex align-items-center mb-3">Personal Status</h5>
+                                <p>Tổng số tín chỉ</p>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                         style="width: {{profile.soTinChiDaHoc / profile.sumTinChi * 100}}%"
+                                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p>GPA</p>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-danger" role="progressbar"
+                                         style="width: {{profile.gpa / 4 * 100}}%"
+                                         aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p> Điểm hệ 10 </p>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                         style="width: {{profile.diemHeMuoi / 10 * 100}}%"
+                                         aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p>Điểm rèn luyện</p>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-warning" role="progressbar"
+                                         style="width: {{profile.diemRL / 100 * 100}}%"
+                                         aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p>Tiềm năng</p>
+                                <div class="progress" style="height: 5px">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 66%"
+                                         aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between ml-3 mr-3 mb-3">
+                                <a href="/admin/viewuserdetail/" class="btn btn-secondary">Quay lại</a>
+                                <a href="{{url_for('xemdiem', profile_id = profile.maSo)}}" class="btn btn-primary">Xem
+                                    điểm từng môn</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
+
+
+

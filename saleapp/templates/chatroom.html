@@ -1,0 +1,124 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Trang chu {% endblock %}
+
+
+{% block content %}
+
+<h1> Hi: {{current_user.username}}</h1>
+
+<h1> Welcome to chatroom: {{room}}</h1>
+
+
+{%for i in range(n)%}
+    {%if current_user.id == user_id[i]%}
+    <div style="margin-left: 500px">
+        <img src="{{user_image[i]}}" alt="" style="margin: 50px;width: 20px; border-radius: 50%">
+        <div> <b>{{user_send[i]}}</b>: {{message[i + 1].content}} </div>
+    </div>
+    {%else%}
+        <div>
+        <img src="{{user_image[i]}}" alt="" style="margin: 50px;width: 20px; border-radius: 50%">
+        <div> <b>{{user_send[i]}}</b>: {{message[i + 1].content}} </div>
+    </div>
+    {%endif%}
+{%endfor%}
+
+<div id="messages"></div>
+
+<form id="message_input_form">
+    <input type="text" id="message_input" placeholder="Enter message here" />
+    <button type="submit" name="message">Send</button>
+
+
+</form>
+
+
+{% endblock %}
+
+{%block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script>
+        const socket = io.connect("http://127.0.0.1:5000");
+
+        socket.on('connect', function () {
+            socket.emit('join_room', {
+                username: "{{ user_name }}",
+                room: "{{ room }}",
+                room_id: {{room_id}},
+                user_id: {{current_user.id}},
+                user_avatar: "{{current_user.avatar}}"
+            })
+
+            let message_input = document.getElementById('message_input')
+            document.getElementById('message_input_form').onsubmit = function(e) {
+                e.preventDefault();
+                let message = message_input.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ user_name }}",
+                        room: "{{ room }}",
+                        message: message,
+                        user_id: {{current_user.id}},
+                        user_avatar: "{{current_user.avatar}}"
+                        })
+                }
+                message_input.value = '';
+                message_input.focus();
+
+                socket.emit('save_message', {
+                    message: message,
+                    room: {{room_id}}
+                    }
+                )
+            }
+
+        });
+
+        socket.on('receive_message', function (data) {
+<!--            console.log(data);-->
+            const newNode = document.createElement('div');
+            const avatar = data['user_avatar'].replaceAll('&amp;', '&')
+            const img = document.createElement('img');
+            img.src = avatar;
+            img.style.width = "20px";
+            img.style.borderRadius = "50%";
+            img.style.marginLeft = "500px"
+
+            document.getElementById('messages').appendChild(img);
+
+            if (data['user_id'] == {{current_user.id}}) {
+                newNode.innerHTML =`
+<!--                <img src= avatar alt="" style="margin: 50px;width: 20px; border-radius: 50%">-->
+                <div style="margin-left: 500px">
+                <b>${data.username}:&nbsp;</b> ${data.message}
+                </div>
+                `;
+            }
+            else {
+                newNode.innerHTML = `
+                <div>
+<!--                <img src= avatar alt="" style="margin: 50px;width: 20px; border-radius: 50%">-->
+                <b>${data.username}:&nbsp;</b> ${data.message}
+                </div>
+                `;
+            }
+            document.getElementById('messages').appendChild(newNode);
+
+            let all_message = document.getElementById('messages')
+            console.log(all_message)
+
+        });
+
+        socket.on('join_room_announcement', function (data) {
+            console.log(data);
+            const newNode = document.createElement('div')
+            newNode.innerHTML = data['username'] + ' has join the room'
+            document.getElementById('messages').appendChild(newNode);
+        });
+
+
+</script>
+{%endblock%}
+
+

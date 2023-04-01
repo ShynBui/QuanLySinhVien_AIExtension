@@ -1,0 +1,93 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Xem điểm {% endblock %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/xemdiem.css') }}"
+      rel="stylesheet"/>
+{%endblock%}
+
+{% block content %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="d-flex justify-content-between">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase mb-0">{{proFile.name}}</h5>
+                        <h8 class="card-title text-uppercase mb-0">{{proFile.maSo}}</h8>
+                        <h5 class="card-title text mb-0">GPA: {{proFile.gpa}}</h5>
+                        <h5 class="card-title text mb-0">Điểm hệ 10: {{proFile.diemHeMuoi}}</h5>
+                    </div>
+                </div>
+                <form action="{{url_for('process_change', mon=monhoc[0].idString)}}" method="post">
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0">
+                            <thead>
+                            <tr class="text-center">
+                                <th scope="col" class="border-0 text-uppercase font-medium">Mã môn</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Tên môn</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Số tín chỉ</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Điểm giữa kì</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Điểm cuối kì</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Điểm hệ 10</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Điểm hệ 4</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Đánh giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {%for i in range(n)%}
+                            <tr>
+                                <td>
+                                    <span class="text-muted">{{monhoc[i].idString}}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{monhoc[i].name}}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{monhoc[i].soTinChi}}</span><br>
+                                </td>
+                                <td>
+                                    <input type="number" min="0" max="10" step="0.1" name="diemgiuaki"
+                                           value="{{diemGiuaKi[i].diem}}">
+                                </td>
+                                <td>
+                                    <input type="number" min="0" max="10" step="0.1" name="diemcuoiki"
+                                           value="{{diemCuoiKi[i].diem}}">
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{diemHeMuoi[i]}}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{diemHeBon[i]}}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{diemChu[i]}}</span><br>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between m-2">
+                            <a href="{{url_for('xemdiem', profile_id= proFile.maSo)}}" class="btn btn-secondary">Quay
+                                lại</a>
+                            <button class="btn btn-primary mr-2" type="submit">Cập nhật điểm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+
+
+
+
+
+
