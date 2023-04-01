@@ -30,7 +30,9 @@
                                     <form action="{{url_for('delete_user')}}" class="inline mr-1">
                                         <button type="submit" class="btn btn-primary">Xóa</button>
                                     </form>
-                                    <button class="btn btn-outline-primary">Message</button>
+                                    <a href="{{url_for('chat_room_admin', room_id=room.id)}}">
+                                        <button class="btn btn-outline-primary">Message</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -299,6 +299,24 @@ if __name__ == '__main__':
         db.session.add_all([user1, user2, user3, user4, user5, user6, user7, user8, user9])
         db.session.commit()
 
+        #room
+        room = Room(name="Room của " + user1.name.strip())
+        room2 = Room(name="Room của " + user2.name.strip())
+        room3 = Room(name="Room của " + user3.name.strip())
+        room4 = Room(name="Room của " + user8.name.strip())
+
+        db.session.add_all([room, room2, room3, room4])
+        db.session.commit()
+
+        #Message
+        message = Message(room_id=room.id, user_id=user1.id)
+        message2 = Message(room_id=room2.id, user_id=user2.id)
+        message3= Message(room_id=room3.id, user_id=user3.id)
+        message4 = Message(room_id=room4.id, user_id=user8.id)
+
+        db.session.add_all([message, message2, message3, message4])
+        db.session.commit()
+
         #Môn học
         monhoc = MonHoc(name="Lập trình cơ sở dữ liệu", idString="ITEC3406", soTinChi=3,
                         tiLeGiuaKi=0.4, idKhoa=khoa.id)

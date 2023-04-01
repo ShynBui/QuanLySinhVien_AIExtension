@@ -64,6 +64,13 @@ def get_chatroom_by_room_id(id):
     print(id_room.first())
     return id_room.first()
 
+def get_chat_room_by_user_id(id):
+
+    message = Message.query.filter(Message.user_id == id).first()
+
+    room = Room.query.filter(Room.id == message.room_id)
+
+    return room.first()
 
 
 def change_room_status(id, change):
@@ -117,8 +124,21 @@ def get_sinhvien_by_id(id):
         .filter(User.userRole == UserRole.SINHVIEN, User.maSo == id)
     return p.all()
 
+def get_host_room_avatar(room_id):
+    user = Message.query.filter(Message.room_id.__eq__(room_id),
+                                Message.content.__eq__('')).first()
+
+    username = get_user_by_id(user.user_id);
+
+    return username.avatar
+
+def get_chatroom_by_id(id):
+    id_room = Room.query.filter(Room.id.__eq__(id))
+    id_room[0]
+
+    return id_room.first();
 def get_profile(mssv):
-    p = db.session.query(User.avatar, User.email, User.name, User.sdt, User.diachi, SinhVien.gpa,
+    p = db.session.query(User.id.label('user_id'), User.avatar, User.email, User.name, User.sdt, User.diachi, SinhVien.gpa,
                          User.maSo, SinhVien.diemHeMuoi, SinhVien.soTinChiDaHoc,
                          SinhVien.diemRL, User.dob, User.sex, KhoaHoc.name.label('nienkhoa'), Nganh.name.label('nganh'),
                          Khoa.name.label('khoa'), User.facebook, Nganh.sumTinChi, Lop.name.label('lop'),

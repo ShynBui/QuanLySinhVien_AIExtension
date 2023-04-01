@@ -62,13 +62,15 @@ def profile(profile_id):
     else:
         xhh = "Yếu"
 
+    room = untils.get_chat_room_by_user_id(pro.user_id)
+
     dob = str(pro.dob.year) + "-" + str(pro.dob.month).zfill(2) + "-" + str(pro.dob.day).zfill(2)
 
     allNganh = untils.get_all_nganh(pro.idKhoa)
     allKhoa = untils.get_all_khoa()
 
     return render_template('profile.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
-                           allKhoa=allKhoa)
+                           allKhoa=allKhoa, room=room)
 
 @app.route('/save_khoa')
 def save_khoa():
@@ -83,13 +85,16 @@ def save_khoa():
     else:
         xhh = "Yếu"
 
+
+    room = untils.get_chat_room_by_user_id(pro.user_id)
+
     dob = str(pro.dob.year) + "-" + str(pro.dob.month).zfill(2) + "-" + str(pro.dob.day).zfill(2)
 
     allNganh = untils.get_all_nganh(pro.idKhoa)
     allKhoa = untils.get_all_khoa()
 
     return render_template('save_khoa.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
-                           allKhoa=allKhoa)
+                           allKhoa=allKhoa, room=room)
 
 @app.route('/save_nganh', methods=['POST', 'get'])
 def save_nganh():
@@ -331,7 +336,7 @@ def change_profile():
     khoahoc = request.form.get('khoahoc')
     diachi = request.form.get('diachi')
 
-    print(name, dob, sex, khoa, nganh, lop, email, phone, khoahoc, diachi)
+    # print(name, dob, sex, khoa, nganh, lop, email, phone, khoahoc, diachi)
 
     untils.change_profile(data['profile_id'], name, dob, sex, email, phone, diachi)
 
@@ -406,30 +411,32 @@ def process():
 
 @app.route("/admin/chatadmin/<int:room_id>")
 def chat_room_admin(room_id):
-
-    if current_user.user_role == UserRole.SYSADMIN:
+    if current_user.userRole == UserRole.SYSADMIN or current_user.userRole == UserRole.NHANVIEN:
         print(room_id)
         user_name = current_user.name
         room = untils.get_chatroom_by_room_id(id=room_id)
+        list_user = untils.load_message(room.room_id)
 
-        user_send = [untils.get_user_by_id(x.user_id).name for x in untils.load_message(room.room_id)]
+        user_send = [(untils.get_user_by_id(x.user_id).name) for x in list_user]
 
-        user_image = [untils.get_user_by_id(x.user_id).avatar for x in untils.load_message(room.room_id)]
+        user_image = [untils.get_user_by_id(x.user_id).avatar for x in list_user]
 
-        user_id = [x.user_id for x in untils.load_message(room.room_id)]
+        user_id = [x.user_id for x in list_user]
 
         user_send.pop(0)
         user_image.pop(0)
         user_id.pop(0)
 
+        host_avatar = untils.get_host_room_avatar(room.room_id);
 
         if user_name and room:
-            print(untils.load_message(room.room_id)[0].content)
             return render_template('chatroom.html', user_name=user_name, room=room.room_id, name=current_user.name,
-                                   message=untils.load_message(room.room_id), room_id=int(room.room_id),
-                                   user_send=user_send, n=len(user_send), user_image=user_image, user_id=user_id)
+                                   message=list_user, room_id=int(room.room_id),
+                                   user_send=user_send, n=len(user_send), user_image=user_image, user_id=user_id,
+                                   room_name=untils.get_chatroom_by_id(room.room_id),
+                                   host_avatar=host_avatar);
 
-    return redirect(url_for('home'))
+    return redirect(url_for('home'));
 
 
 @socketio.on('send_message')
