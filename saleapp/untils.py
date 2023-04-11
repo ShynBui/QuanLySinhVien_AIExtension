@@ -1,4 +1,4 @@
-from saleapp.models import User, UserRole, Room, Message, SinhVien, Lop, Nganh, KhoaHoc, Khoa, HeDaoTao, GiangVien, Diem, MonHoc
+from saleapp.models import User, UserRole, Room, Message, SinhVien, HocKi, Lop, Nganh, KhoaHoc, Khoa, HeDaoTao, GiangVien, Diem, MonHoc
 from flask_login import current_user
 from sqlalchemy import func, and_, desc, or_
 from saleapp import app, db, question_answerer, model_multiple, model_gk_ck_nhapmon, summarizer
@@ -270,6 +270,11 @@ def update_diem_by_maSo(mssv, diemHeMuoi, diemHeBon, tongTinChi):
     db.session.commit()
 
 
+def get_all_hocki():
+    hocki = HocKi.query.all()
+
+    return hocki
+
 def xem_all_diem_gk_by_ma_so(maSo, maMon=None):
     sinhvien = User.query.filter(User.maSo.__eq__(maSo)).first()
 
@@ -349,6 +354,11 @@ def get_mon_hoc_by_ma_diem(id):
     p = MonHoc.query.filter(MonHoc.id == id)
 
     return p.first()
+
+def get_ten_hoc_ki_by_id(id):
+    hocki = HocKi.query.filter(HocKi.id.__eq__(id)).first()
+
+    return hocki
 
 def get_all_mon_hoc():
     p = MonHoc.query.all()

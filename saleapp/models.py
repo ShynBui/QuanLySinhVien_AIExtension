@@ -154,6 +154,16 @@ class NhanhVien(BaseModel):
     def __str__(self):
         return self.name
 
+
+class HocKi(BaseModel):
+    __tablename__= 'hocki'
+
+    hocKi = Column(Integer, nullable=False)
+    namHoc = Column(Integer, nullable=False)
+    monhoc = relationship('MonHoc', backref='hocki', lazy=True)
+    def __str__(self):
+        return self.hocKi
+
 class MonHoc(BaseModel):
     __tablename__= 'monhoc'
 
@@ -162,6 +172,7 @@ class MonHoc(BaseModel):
     soTinChi = Column(Integer, nullable=False)
     tiLeGiuaKi = Column(Float, nullable=False)
     idKhoa = Column(Integer, ForeignKey(Khoa.id), nullable=False, primary_key=True)
+    idHocKi = Column(Integer, ForeignKey(HocKi.id), nullable=False, primary_key=True)
     giangvienmonhoc = relationship('GiangVienMonHoc', backref='monhoc', lazy=True)
     diem = relationship('Diem', backref='monhoc', lazy=True)
     def __str__(self):
@@ -213,6 +224,18 @@ if __name__ == '__main__':
         khoahoc = KhoaHoc(name="2020-2024")
         khoahoc2 = KhoaHoc(name="2021-2025")
         db.session.add_all([khoahoc, khoahoc2])
+        db.session.commit()
+
+        #HocKi
+        hocki1_2019 = HocKi(hocKi= 1, namHoc=2019)
+        hocki2_2019 = HocKi(hocKi=2, namHoc=2019)
+        hocki3_2019 = HocKi(hocKi=3, namHoc=2019)
+
+        hocki1_2020 = HocKi(hocKi=1, namHoc=2020)
+        hocki2_2020 = HocKi(hocKi=2, namHoc=2020)
+        hocki3_2020 = HocKi(hocKi=3, namHoc=2020)
+
+        db.session.add_all([hocki1_2019, hocki2_2019,hocki3_2019,hocki1_2020,hocki2_2020,hocki3_2020])
         db.session.commit()
 
         #GiangVien
@@ -319,13 +342,13 @@ if __name__ == '__main__':
 
         #Môn học
         monhoc = MonHoc(name="Lập trình cơ sở dữ liệu", idString="ITEC3406", soTinChi=3,
-                        tiLeGiuaKi=0.4, idKhoa=khoa.id)
+                        tiLeGiuaKi=0.4, idKhoa=khoa.id, idHocKi=hocki1_2019.id)
         monhoc2 = MonHoc(name="Lập trình hướng đối tượng", idString="ITEC2504", soTinChi=3,
-                        tiLeGiuaKi=0.4, idKhoa=khoa.id)
+                        tiLeGiuaKi=0.4, idKhoa=khoa.id, idHocKi=hocki1_2019.id)
         monhoc3 = MonHoc(name="An toàn hệ thống thông tin", idString="ITEC3412", soTinChi=3,
-                         tiLeGiuaKi=0.4, idKhoa=khoa.id)
+                         tiLeGiuaKi=0.4, idKhoa=khoa.id, idHocKi=hocki1_2019.id)
         monhoc4 = MonHoc(name="Nguyên lý kế toán", idString="BA3452", soTinChi=3,
-                         tiLeGiuaKi=0.3, idKhoa=khoa2.id)
+                         tiLeGiuaKi=0.3, idKhoa=khoa2.id, idHocKi=hocki1_2019.id)
         db.session.add_all([monhoc, monhoc2, monhoc3, monhoc4])
         db.session.commit()
 

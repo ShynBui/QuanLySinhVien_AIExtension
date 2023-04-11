@@ -35,23 +35,27 @@
                             <th scope="col" class="border-0 text-uppercase font-medium">Mã môn</th>
                             <th scope="col" class="border-0 text-uppercase font-medium">Tên môn</th>
                             <th scope="col" class="border-0 text-uppercase font-medium">Số tín chỉ</th>
+                            <th scope="col" class="border-0 text-uppercase font-medium">Học kì</th>
                             <th scope="col" class="border-0 text-uppercase font-medium">Quản trị</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {%for i in monhoc%}
+                        {%for i in range(n)%}
                         <tr>
                             <td>
-                                <span class="text-muted">{{i.idString}}</span><br>
+                                <span class="text-muted">{{monhoc[i].idString}}</span><br>
                             </td>
                             <td>
-                                <span class="text-muted">{{i.name}}</span><br>
+                                <span class="text-muted">{{monhoc[i].name}}</span><br>
                             </td>
                             <td>
-                                <span class="text-muted">{{i.soTinChi}}</span><br>
+                                <span class="text-muted">{{monhoc[i].soTinChi}}</span><br>
+                            </td>
+                            <td>
+                                 <span class="text-muted">{{hocKi[i].hocKi}} - {{hocKi[i].namHoc}}</span><br>
                             </td>
                             <td class="d-flex justify-content-between align-items-center">
-                                <form class="mx-auto" action="{{url_for('dangkimon', mon=i.idString)}}">
+                                <form class="mx-auto" action="{{url_for('dangkimon', mon=monhoc[i].idString, hocki=hocKi[i].id)}}">
                                     <button type="submit"
                                             class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i
                                             class="fa fa-plus"></i></button>

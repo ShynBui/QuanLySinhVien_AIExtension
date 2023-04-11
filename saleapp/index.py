@@ -280,6 +280,8 @@ def themmon():
     proFile = untils.get_sinhvien_by_id(data['profile_id'])[0]
     diemGiuaKi = untils.xem_all_diem_gk_by_ma_so(maSo=data['profile_id'])
 
+    hocKi = []
+
     monhoc = []
 
     for i in diemGiuaKi:
@@ -306,14 +308,19 @@ def themmon():
 
         # print(temp)
         if len(temp) > 0:
-            return render_template('themmon.html', proFile=proFile, monhoc=temp)
+            for i in temp:
+                hocKi.append(untils.get_ten_hoc_ki_by_id(i.idHocKi))
+            return render_template('themmon.html', proFile=proFile, monhoc=temp, hocKi=hocKi, n=len(temp))
         else:
-            return render_template('themmon.html', proFile=proFile, monhoc=[])
+            return render_template('themmon.html', proFile=proFile, monhoc=[], hocKi=[], n=len(temp))
 
-    return render_template('themmon.html', proFile=proFile, monhoc=monHocChuaHoc)
+    for i in monHocChuaHoc:
+        hocKi.append(untils.get_ten_hoc_ki_by_id(i.idHocKi))
 
-@app.route('/dangkimon/<mon>', methods=['POST', 'get'])
-def dangkimon(mon):
+    return render_template('themmon.html', proFile=proFile, monhoc=monHocChuaHoc, hocKi=hocKi, n=len(monHocChuaHoc))
+
+@app.route('/dangkimon/<mon>/hocki<int:hocki>', methods=['POST', 'get'])
+def dangkimon(mon, hocki):
 
     untils.them_mon(data['profile_id'], mon)
 
