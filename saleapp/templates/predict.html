@@ -1,0 +1,45 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Đăng ký {% endblock %}
+
+{% block css %}
+<link href="{{ url_for('static', filename='css/question_answering.css') }}"
+      rel="stylesheet"/>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{%endblock%}
+
+{% block content %}
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container contact">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="contact-info">
+                <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image"/>
+                <h5>predict: {{predict}}</h5>
+                <h2>{{from_predict}} - {{to_predict}}</h2>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="contact-form">
+                <form action="{{url_for('predict')}}" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="diem">Điểm gk:</label>
+                        <div class="col-sm-10">
+                            <input min="0" max="10" step="0.1" value="{{diem}}" type="number" class="form-control" id="diem"
+                                   placeholder="Enter your question"
+                                   name="diem">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url_for('predict')}}" type="button" class="btn btn-secondary">Clear</a>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

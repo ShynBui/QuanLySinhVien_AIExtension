@@ -1,12 +1,13 @@
 from saleapp.models import User, UserRole, Room, Message, SinhVien, Lop, Nganh, KhoaHoc, Khoa, HeDaoTao, GiangVien, Diem, MonHoc
 from flask_login import current_user
 from sqlalchemy import func, and_, desc, or_
-from saleapp import app, db
+from saleapp import app, db, question_answerer, model_multiple, model_gk_ck_nhapmon, summarizer
 import json
 from datetime import datetime
 import hashlib
 from sqlalchemy.sql import extract
-
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 def get_id_by_username(username):
     id = User.query.filter(User.username.__eq__(username))
@@ -15,10 +16,27 @@ def get_id_by_username(username):
 
 def add_user(name, username, password, diachi, **kwargs):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    print(kwargs.get('dob'))
+    maSo1 = kwargs.get('email').split('@')[0]
+    maso = ''
+    for i in maSo1:
+        if i.isnumeric():
+            maso = maso + i
+
+    print(maso)
+
+    sinhvien = SinhVien(idLop=1)
+    db.session.add(sinhvien)
+    db.session.commit()
+
     user = User(name=name.strip(), username=username, password=password, diachi=diachi,
-                email=kwargs.get('email'), avatar=kwargs.get('avatar'))
+                email=kwargs.get('email'), avatar=kwargs.get('avatar'), maSo=maso, userRole=UserRole.SINHVIEN,
+                idPerson= sinhvien.id, dob=kwargs.get('dob'))
 
-
+    # user1 = User(name="Bùi Tiến Phát", maSo="2051052096", username="2051052096phat@ou.edu.vn",
+    #              password=password, email="2051052096phat@ou.edu.vn", joined_date=datetime.now(),
+    #              diachi="Gò Vấp", userRole=UserRole.SINHVIEN, idPerson=sv1.id,
+    #              dob=datetime.strptime("24-06-2002", '%d-%m-%Y').date(), avatar='')
 
     db.session.add(user)
     db.session.commit()
@@ -76,7 +94,6 @@ def get_chat_room_by_user_id(id):
 def change_room_status(id, change):
     id_room = Room.query.filter(Room.id.__eq__(id)).first()
 
-
     id_room.is_reply = change
 
     db.session.commit()
@@ -112,7 +129,6 @@ def get_all_sinhvien():
         .join(SinhVien, User.idPerson == SinhVien.id).join(Lop, SinhVien.idLop == Lop.id)\
         .join(Nganh, Lop.idNganh == Nganh.id)\
         .filter(User.userRole == UserRole.SINHVIEN)
-    print(p.all()[0])
     return p.all()
 
 def get_sinhvien_by_id(id):
@@ -137,6 +153,8 @@ def get_chatroom_by_id(id):
     id_room[0]
 
     return id_room.first();
+
+
 def get_profile(mssv):
     p = db.session.query(User.id.label('user_id'), User.avatar, User.email, User.name, User.sdt, User.diachi, SinhVien.gpa,
                          User.maSo, SinhVien.diemHeMuoi, SinhVien.soTinChiDaHoc,
@@ -339,4 +357,67 @@ def get_all_mon_hoc():
 
 def delete_user(mssv):
 
+    user = User.query.filter(User.maSo.__eq__(mssv)).first()
+
+    sinhvien = SinhVien.query.filter(SinhVien.id == user.idPerson).first()
+
+    diem = Diem.query.filter(Diem.idSinhVien == sinhvien.id).all()
+
+    message = Message.query.filter(Message.user_id == user.id).all()
+
+    room = Room.query.filter(Room.id == message[0].room_id).first()
+
+    for i in message:
+        db.session.delete(i)
+        db.session.commit()
+
+    for i in diem:
+        db.session.delete(i)
+        db.session.commit()
+
+    db.session.delete(user)
+    db.session.commit()
+    db.session.delete(room)
+    db.session.commit()
+    db.session.delete(sinhvien)
+
+    db.session.commit()
+
     return True
+
+
+def predict_question_answering(context, question, answer0, answer1, answer2, answer3):
+    answers = [answer0, answer1, answer2, answer3]
+    key = question_answerer(question=question, context=context)['answer']
+
+    embedding_answer = model_multiple.encode(answers)
+    embedding_key = model_multiple.encode(key)
+
+    result = cosine_similarity(
+        [embedding_key],
+        embedding_answer
+    )
+
+    index = 0
+    max = -999
+
+    for i in range(len(answers)):
+        if (result[0][i] > max):
+            max = result[0][i]
+            index = i
+
+    return chr(ord('A') + index) + ". " + answers[index]
+
+def predict_question(context, question):
+
+    key = question_answerer(question=question, context=context)['answer']
+
+    return key
+
+def predict_gk_ck_nhapmon(diemGK):
+
+    return model_gk_ck_nhapmon.predict(np.array([diemGK]).reshape(-1, 1))[0]
+
+def summary(text):
+
+    return summarizer(text, max_length=100, min_length=20, do_sample=False)[0]['summary_text']

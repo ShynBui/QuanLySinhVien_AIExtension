@@ -21,16 +21,24 @@ def home():
 
 @app.route("/chatroom")
 def chat_room():
-    user_name = current_user.name
+    if current_user.is_authenticated:
+        pass
+    else:
+        return redirect(url_for('user_signin'))
+
+    user_name = (current_user.name)
     room = untils.get_chatroom_by_user_id(id=current_user.id)
+    list_user = untils.load_message(room.room_id)
 
-    # print(room.room_id)
+    print(room.room_id)
 
-    user_send = [untils.get_user_by_id(x.user_id).name for x in untils.load_message(room.room_id)]
+    user_send = [(untils.get_user_by_id(x.user_id).name) for x in list_user]
 
-    user_image = [untils.get_user_by_id(x.user_id).avatar for x in untils.load_message(room.room_id)]
+    user_image = [untils.get_user_by_id(x.user_id).avatar for x in list_user]
 
-    user_id = [x.user_id for x in untils.load_message(room.room_id)]
+    user_id = [x.user_id for x in list_user]
+
+    host_avatar = untils.get_host_room_avatar(room.room_id);
 
     user_send.pop(0)
     user_image.pop(0)
@@ -40,12 +48,16 @@ def chat_room():
 
     if user_name and room:
 
-        print(untils.load_message(room.room_id)[0].content)
-        return render_template('chatroom.html', user_name=user_name, room=room.room_id, name= current_user.name,
-                               message=untils.load_message(room.room_id), room_id = int(room.room_id),
-                               user_send= user_send, n=len(user_send), user_image=user_image, user_id=user_id)
+        # print(untils.load_message(room.room_id)[0].content)
+
+        return render_template('chatroom.html', user_name=(user_name), room=room.room_id, name=current_user.name,
+                               message=list_user, room_id=int(room.room_id),
+                               user_send=user_send, n=len(user_send), user_image=user_image, user_id=user_id,
+                               room_name=untils.get_chatroom_by_id(room.room_id),
+                               host_avatar=host_avatar);
     else:
         return redirect(url_for('home'))
+
 
 
 @app.route("/profile/<profile_id>", methods=['post', 'get'])
@@ -317,6 +329,7 @@ def delete_mon(mon):
 @app.route('/delete_user', methods=['POST', 'get'])
 def delete_user():
 
+    untils.delete_user(data['profile_id'])
 
     return redirect('/admin/viewuserdetail/')
 
@@ -455,12 +468,10 @@ def handle_save_message_event(data):
 
     untils.save_chat_message(room_id=int(data['room']), message=data['message'], user_id=current_user.id)
 
-    if (current_user.user_role == UserRole.ADMIN):
-        print("Dd")
+    if (current_user.userRole == UserRole.SYSADMIN or current_user.userRole == UserRole.NHANVIEN):
         untils.change_room_status(data['room'], 1)
 
-    if (current_user.user_role == UserRole.USER):
-        print("Dd1")
+    if (current_user.userRole == UserRole.SINHVIEN):
         untils.change_room_status(data['room'], 0)
 
 
@@ -476,10 +487,13 @@ def handle_send_room_event(data):
 def user_register():
     err_msg = ""
     if request.method == 'POST':
-        name = request.form.get('name')
-        username = request.form.get('username')
+        name = request.form.get('firstname') + " " + request.form.get('lastname')
         password = request.form.get('password')
         email = request.form.get('email')
+        username = email
+        sex = request.form.get('sex')
+        dob = request.form.get('dob')
+        phone = request.form.get('phone')
         diachi = request.form.get('diachi')
         confirm = request.form.get('confirm')
         avatar_path = None
@@ -496,7 +510,10 @@ def user_register():
                             password=password,
                             diachi=diachi,
                             email=email,
-                            avatar=avatar_path)
+                            avatar=avatar_path,
+                            sex=sex,
+                            dob=dob,
+                            phone=phone)
             return redirect(url_for('user_signin'))
         else:
             err_msg = "Mat khau khong khop"
@@ -508,6 +525,92 @@ def user_register():
 
     return render_template('register.html', err_msg=err_msg)
 
+@app.route('/question_answering', methods=['post', 'get'])
+def question_answering():
+    predict = ''
+    context = ''
+    question = ''
+    answer0 = ''
+    answer1 = ''
+    answer2 = ''
+    answer3 = ''
+
+    if request.method == 'POST':
+        context = request.form.get('context').strip()
+        question = request.form.get('question').strip()
+        answer0 = request.form.get('answer1').strip()
+        answer1 = request.form.get('answer2').strip()
+        answer2 = request.form.get('answer3').strip()
+        answer3 = request.form.get('answer4').strip()
+
+        if context and question and answer0 and answer1 and answer2 and answer3:
+            predict = untils.predict_question_answering(context, question, answer0, answer1, answer2, answer3)
+        else:
+            predict = "Please input fully"
+
+    return render_template('question_answering.html', predict=predict,
+                           question=question, context=context, answer0=answer0,
+                           answer1=answer1, answer2=answer2, answer3=answer3)
+
+@app.route('/question', methods=['post', 'get'])
+def question():
+    predict = ''
+    context = ''
+    question = ''
+
+    if request.method == 'POST':
+        context = request.form.get('context').strip()
+        question = request.form.get('question').strip()
+
+
+        if context and question:
+            predict = untils.predict_question(context, question)
+        else:
+            predict = "Please input fully"
+
+    return render_template('question.html', predict=predict,
+                           question=question, context=context)
+
+@app.route('/predict', methods=['post', 'get'])
+def predict():
+    predict = ''
+    diem = 0
+    from_predict = ''
+    to_predict = ''
+
+    if request.method == 'POST':
+        diem = request.form.get('diem')
+
+        if diem:
+            predict = round(untils.predict_gk_ck_nhapmon(float(diem)), 1)
+            from_predict = round(predict - 0.5, 1)
+            to_predict = round(predict + 0.5, 1)
+            if from_predict < 0:
+                from_predict = 0
+            if to_predict > 10:
+                to_predict = 10
+        else:
+            predict = "Please input fully"
+
+
+    return render_template('predict.html', predict=predict,
+                           diem=diem, from_predict= from_predict, to_predict=to_predict)
+
+@app.route('/summary', methods=['post', 'get'])
+def summary():
+    summary = ''
+    text = ''
+
+    if request.method == 'POST':
+        text = request.form.get('text')
+
+        if text:
+            summary = untils.summary(text)
+        else:
+            summary = "Please input fully"
+
+
+    return render_template('sumary.html', summary=summary, text=text)
 
 @app.route('/user-login', methods=['get', 'post'])
 def user_signin():
