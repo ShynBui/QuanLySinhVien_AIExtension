@@ -501,3 +501,28 @@ def predict_gk_ck_nhapmon(diemGK):
 
 def summary(text):
     return summarizer(text, max_length=100, min_length=20, do_sample=False)[0]['summary_text']
+
+
+def addTen(data, mssv, hoten):
+    for i in range(len(data)):
+        if data.iloc[i].maso not in mssv:
+            mssv.append(data.iloc[i].maso)
+            hoten.append(data.iloc[i].ho + " " + data.iloc[i].ten)
+
+    return [mssv, hoten]
+
+
+def changedata(data, data1):
+    mssv = []
+    diem = []
+    for i in range(len(data1)):
+        mssv.append(data1.iloc[i].maso)
+        diem.append(data1.iloc[i].diem)
+
+    for i in range(len(data)):
+        if data.iloc[i].mssv in mssv:
+            data.loc[data['mssv'] == data.iloc[i].mssv, 'diem'] = float(
+                data.loc[data['mssv'] == data.iloc[i].mssv, 'diem']) + diem[mssv.index(data.iloc[i].mssv)]
+        else:
+            data.loc[data['mssv'] == data.iloc[i].mssv, 'diem'] = float(
+                data.loc[data['mssv'] == data.iloc[i].mssv, 'diem']) + min(diem)

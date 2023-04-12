@@ -8,6 +8,8 @@ import cloudinary.uploader
 from flask_socketio import SocketIO, emit, join_room
 import requests
 import pandas as pd
+import numpy as np
+import openpyxl
 
 data = {'profile_id': "",
         'nganh': "",
@@ -465,6 +467,137 @@ def stat2():
         soluong.append(i.count)
 
     return render_template('stat2.html', ten=ten, soluong=soluong)
+
+@app.route('/stat3')
+def stat3():
+
+    return render_template('stat3.html')
+
+@app.route('/stat3/1')
+def stat3_1():
+    hk1_20_21 = pd.read_excel('data/data_thukhoa/HK1_20_21.xlsx')
+    hk1_21_22 = pd.read_excel('data/data_thukhoa/HK1_21_22.xlsx')
+    hk2_20_21 = pd.read_excel('data/data_thukhoa/HK2_20_21.xlsx')
+    hk2_21_22 = pd.read_excel('data/data_thukhoa/HK2_21_22.xlsx')
+    hk3_20_21 = pd.read_excel('data/data_thukhoa/HK3_20_21.xlsx')
+    hk3_21_22 = pd.read_excel('data/data_thukhoa/HK3_21_22.xlsx')
+
+    hk3_20_21['diem'] = hk3_20_21['diem'].astype(np.float64)
+
+    hk1_20_21['label'] = 0
+    hk1_21_22['label'] = 1
+    hk2_20_21['label'] = 2
+    hk2_21_22['label'] = 3
+    hk3_20_21['label'] = 4
+    hk3_21_22['label'] = 5
+
+    mssv = []
+    hoten = []
+
+    untils.addTen(hk1_20_21, mssv, hoten)
+    untils.addTen(hk2_20_21, mssv, hoten)
+    untils.addTen(hk3_20_21, mssv, hoten)
+    untils.addTen(hk1_21_22, mssv, hoten)
+    untils.addTen(hk2_21_22, mssv, hoten)
+    untils.addTen(hk3_21_22, mssv, hoten)
+
+    diem = np.zeros(len(hoten), dtype='float')
+
+    data = pd.DataFrame({
+        'mssv': mssv,
+        'hoten': hoten,
+        'diem': diem.tolist()
+    })
+
+    untils.changedata(data, hk1_20_21)
+    untils.changedata(data, hk2_20_21)
+    untils.changedata(data, hk3_20_21)
+    untils.changedata(data, hk1_21_22)
+    untils.changedata(data, hk2_21_22)
+    untils.changedata(data, hk3_21_22)
+
+    data['diem'] = round(data['diem'] / 6, 2)
+
+    print(data.sort_values('diem', ascending=False))
+
+    sort_data = data.sort_values('diem', ascending=False)
+
+
+    data_diem = []
+    data_ten = []
+    data_mssv = []
+
+    for i in range(5):
+        data_ten.append(sort_data.iloc[i].hoten)
+        data_diem.append(sort_data.iloc[i].diem)
+        data_mssv.append(sort_data.iloc[i].mssv)
+
+
+    return render_template('stat3_sub.html', data_ten=data_ten,data_mssv=data_mssv,data_diem=data_diem, sort_data=sort_data,
+                           n=len(data_mssv), len_sort_data=len(sort_data.mssv), nganh="Công nghệ thông tin")
+
+@app.route('/stat3/2')
+def stat3_2():
+    hk1_20_21 = pd.read_excel('data/data_thukhoa1/HK1_20_21.xlsx')
+    hk1_21_22 = pd.read_excel('data/data_thukhoa1/HK1_21_22.xlsx')
+    hk2_20_21 = pd.read_excel('data/data_thukhoa1/HK2_20_21.xlsx')
+    hk2_21_22 = pd.read_excel('data/data_thukhoa1/HK2_21_22.xlsx')
+    hk3_20_21 = pd.read_excel('data/data_thukhoa1/HK3_20_21.xlsx')
+    hk3_21_22 = pd.read_excel('data/data_thukhoa1/HK3_21_22.xlsx')
+
+    hk3_20_21['diem'] = hk3_20_21['diem'].astype(np.float64)
+
+    hk1_20_21['label'] = 0
+    hk1_21_22['label'] = 1
+    hk2_20_21['label'] = 2
+    hk2_21_22['label'] = 3
+    hk3_20_21['label'] = 4
+    hk3_21_22['label'] = 5
+
+    mssv = []
+    hoten = []
+
+    untils.addTen(hk1_20_21, mssv, hoten)
+    untils.addTen(hk2_20_21, mssv, hoten)
+    untils.addTen(hk3_20_21, mssv, hoten)
+    untils.addTen(hk1_21_22, mssv, hoten)
+    untils.addTen(hk2_21_22, mssv, hoten)
+    untils.addTen(hk3_21_22, mssv, hoten)
+
+    diem = np.zeros(len(hoten), dtype='float')
+
+    data = pd.DataFrame({
+        'mssv': mssv,
+        'hoten': hoten,
+        'diem': diem.tolist()
+    })
+
+    untils.changedata(data, hk1_20_21)
+    untils.changedata(data, hk2_20_21)
+    untils.changedata(data, hk3_20_21)
+    untils.changedata(data, hk1_21_22)
+    untils.changedata(data, hk2_21_22)
+    untils.changedata(data, hk3_21_22)
+
+    data['diem'] = round(data['diem'] / 6, 2)
+
+    print(data.sort_values('diem', ascending=False))
+
+    sort_data = data.sort_values('diem', ascending=False)
+
+
+    data_diem = []
+    data_ten = []
+    data_mssv = []
+
+    for i in range(5):
+        data_ten.append(sort_data.iloc[i].hoten)
+        data_diem.append(sort_data.iloc[i].diem)
+        data_mssv.append(sort_data.iloc[i].mssv)
+
+
+    return render_template('stat3_sub.html', data_ten=data_ten,data_mssv=data_mssv,data_diem=data_diem, sort_data=sort_data,
+                           n=len(data_mssv), len_sort_data=len(sort_data.mssv), nganh='Hệ thống thông tin quản lý')
 
 @app.route('/process', methods=['POST'])
 def process():
