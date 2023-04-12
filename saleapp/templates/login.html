@@ -8,23 +8,37 @@
 {%endblock%}
 
 {% block content %}
-<h1 class="d-flex justify-content-center text-danger"> Đăng nhập</h1>
+<h1 class="d-flex justify-content-center text-danger">Đăng nhập</h1>
 
 {% if err_msg != ''%}
 <div class="alert alert-danger">
     <h4>{{err_msg}}</h4>
 </div>
 {%endif%}
-
+<!--<div class="body">-->
+<!--    <div class="login-box">-->
+<!--  <h2>Login</h2>-->
+<!--  <form>-->
+<!--    <div class="user-box">-->
+<!--      <input type="text" name="" required="">-->
+<!--      <label>Username</label>-->
+<!--    </div>-->
+<!--    <div class="user-box">-->
+<!--      <input type="password" name="" required="">-->
+<!--      <label>Password</label>-->
+<!--    </div>-->
+<!--   <button type="submit">-->
+<!--     -->
+<!--   </button>-->
+<!--  </form>-->
+<!--</div>-->
+<!--</div>-->
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h2 class="text-center text-dark mt-5">Login Form</h2>
-            <div class="text-center mb-5 text-dark">Made with bootstrap</div>
+
             <div class="card my-5">
-
                 <form class="card-body cardbody-color p-lg-5"  method="post">
-
                     <div class="text-center">
                         <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png"
                              class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
@@ -55,6 +69,5 @@
 <br>
 <br>
 
-</body>
-</html>
+
 {% endblock %}

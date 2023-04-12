@@ -1,6 +1,11 @@
  <header class="header" data-header>
     <div class="container">
 
+<<<<<<< HEAD
+            {%if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('user_signout')}}">
+=======
       <a href="#" class="logo">
         <img src="./assets/images/logo.svg" width="162" height="50" alt="EduWeb logo">
       </a>
@@ -58,6 +63,7 @@
             </li>
             <li class="navbar-item">
                 <a class="nav-link" href="{{url_for('user_signout')}}" >
+>>>>>>> hoang
                     {%if current_user.avatar %}
                     <img class="rounded-circle" src="{{current_user.avatar}}" width="30" height="30px">
                     {%else%}
@@ -72,6 +78,7 @@
                 <a class="navbar-link" href="{{url_for('user_signout')}}">Logout</a>
             </li>
 
+<<<<<<< HEAD
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('chat_room')}}">Chat room <span class="sr-only"></span></a>
             </li>
@@ -91,6 +98,8 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('stat')}}">Stat<span class="sr-only"></span></a>
             </li>
+=======
+>>>>>>> hoang
             {%else%}
             <li class="navbar-item">
                 <a class="navbar-link" href="{{url_for('user_signin')}}">Dăng nhập</a>
@@ -99,7 +108,10 @@
                 <a class="navbar-link" href="{{url_for('user_register')}}">Đăng ký</a>
             </li>
             {%endif%}
+<<<<<<< HEAD
+=======
 
+>>>>>>> hoang
         </ul>
 
       </nav>
