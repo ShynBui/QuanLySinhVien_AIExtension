@@ -13,6 +13,7 @@ data = {'profile_id': "",
         'khoa': "",
         'lop': ""}
 
+
 @app.route("/")
 def home():
     return render_template('index.html')
