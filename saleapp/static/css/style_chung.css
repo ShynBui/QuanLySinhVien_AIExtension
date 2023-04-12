@@ -1447,3 +1447,31 @@ transform: scale(1.05);
     display: flex;
     justify-content: center;
     font-weight: 550;}
+
+    .username{
+    position:relative;
+    }
+    .usermenu ul{
+    position:absolute;
+    display:none;
+    }
+
+    .usermenu:hover ul{
+        display:block;
+    }
+    .section blog has-bg-image{
+    background-color: var(--isabelline);
+    }
+
+.question_answering{
+    font-family: var(--ff-league_spartan);
+    margin-top:135px;
+    display:flex;
+    justify-content:center;
+
+}
+.question_answering span{
+    color:red;
+    font-weight:900;
+    margin-left:10px;
+}
