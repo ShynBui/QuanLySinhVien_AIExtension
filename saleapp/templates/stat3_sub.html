@@ -1,0 +1,91 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>Thống kê top sinh viên giỏi nhất theo ngành {{nganh}}</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-light table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>
+                        MSSV
+                    </th>
+                    <th>
+                        Họ tên
+                    </th>
+                    <th>
+                        GPA
+                    </th>
+                </tr>
+                </thead>
+                {% for i in range(len_sort_data) %}
+                <tr>
+                    <td>{{sort_data.iloc[i].mssv}}</td>
+                    <td>{{sort_data.iloc[i].hoten}}</td>
+                    <td>{{sort_data.iloc[i].diem}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+     const getChart = document.getElementById('myChart');
+     let data_ten = [], data_soluong = []
+
+    {% for i in data_ten %}
+        data_ten.push('{{i}}')
+    {%endfor%}
+
+    {% for i in data_diem %}
+        data_soluong.push('{{i}}')
+    {%endfor%}
+
+     new Chart(getChart, {
+    type: 'bar',
+    data: {
+      labels: data_ten,
+      datasets: [{
+        label: 'Thống top sinh viên giỏi nhất ngành {{nganh}}',
+        data: data_soluong,
+        backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+    ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+
+</script>
+{%endblock%}
