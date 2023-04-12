@@ -3,5 +3,42 @@
 {% block content %}
 
 <h1>Thống kê số lượng sinh viên theo từng khoa</h1>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+     const getChart = document.getElementById('myChart');
+     let data_ten = [], data_soluong = []
+
+    {% for i in ten %}
+        data_ten.push('{{i}}')
+    {%endfor%}
+
+    {% for i in soluong %}
+        data_soluong.push('{{i}}')
+    {%endfor%}
+
+     new Chart(getChart, {
+    type: 'doughnut',
+    data: {
+      labels: data_ten,
+      datasets: [{
+        label: 'Thống kê top điểm trung bình theo môn theo khoa',
+        data: data_soluong,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+</script>
 {%endblock%}

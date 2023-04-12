@@ -455,8 +455,16 @@ def stat1():
 @app.route('/stat2')
 def stat2():
 
+    data = untils.get_sinh_vien_theo_khoa()
 
-    return render_template('stat2.html')
+    ten = []
+    soluong = []
+
+    for i in data:
+        ten.append(i.tenkhoa)
+        soluong.append(i.count)
+
+    return render_template('stat2.html', ten=ten, soluong=soluong)
 
 @app.route('/process', methods=['POST'])
 def process():
