@@ -27,12 +27,18 @@
                                 <p class="text-secondary mb-1">{{profile.maSo}}</p>
                                 <p class="text-muted font-size-sm">{{profile.email}}</p>
                                 <div class="d-flex justify-content-center">
+                                    {%if current_user.userRole == admin%}
                                     <form action="{{url_for('delete_user')}}" class="inline mr-1">
                                         <button type="submit" class="btn btn-primary">Xóa</button>
                                     </form>
                                     <a href="{{url_for('chat_room_admin', room_id=room.id)}}">
                                         <button class="btn btn-outline-primary">Message</button>
                                     </a>
+                                    {%else%}
+                                    <a href="{{url_for('chat_room')}}">
+                                        <button class="btn btn-outline-primary">Message</button>
+                                    </a>
+                                    {%endif%}
                                 </div>
                             </div>
                         </div>
@@ -143,6 +149,7 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Khoa</h6>
                                 </div>
+                                {%if current_user.userRole == admin%}
                                 <div class="col-sm-8 text-secondary">
                                     <input readonly name="khoa" type="text" class="form-control"
                                            value="{{profile.khoa}}">
@@ -155,11 +162,18 @@
                                         <path d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z"/>
                                     </svg>
                                 </a>
+                                {%else%}
+                                <div class="col-sm-9 text-secondary">
+                                    <input readonly name="khoa" type="text" class="form-control"
+                                           value="{{profile.khoa}}">
+                                </div>
+                                {%endif%}
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Ngành</h6>
                                 </div>
+                                {%if current_user.userRole == admin%}
                                 <div class="col-sm-8 text-secondary">
                                     <input readonly name="nganh" type="text" class="form-control"
                                            value="{{profile.nganh}}">
@@ -172,11 +186,18 @@
                                         <path d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z"/>
                                     </svg>
                                 </a>
+                                {%else%}
+                                <div class="col-sm-9 text-secondary">
+                                    <input readonly name="nganh" type="text" class="form-control"
+                                           value="{{profile.nganh}}">
+                                </div>
+                                {%endif%}
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Lớp</h6>
                                 </div>
+                                {%if current_user.userRole == admin%}
                                 <div class="col-sm-8 text-secondary">
                                     <input readonly name="class" type="text" class="form-control"
                                            value="{{profile.lop}}">
@@ -189,6 +210,12 @@
                                         <path d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z"/>
                                     </svg>
                                 </a>
+                                {%else%}
+                                <div class="col-sm-9 text-secondary">
+                                    <input readonly name="class" type="text" class="form-control"
+                                           value="{{profile.lop}}">
+                                </div>
+                                {%endif%}
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
@@ -223,12 +250,22 @@
                                     <input name="diachi" type="text" class="form-control" value="{{profile.diachi}}">
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Điểm rèn luyện</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input name="diemrl" type="text" class="form-control" value="{{profile.diemRL}}">
+                                </div>
+                            </div>
+                            {%if current_user.userRole == admin%}
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
                                     <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                                 </div>
                             </div>
+                            {%endif%}
                         </div>
                     </div>
                 </form>
@@ -268,7 +305,11 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between ml-3 mr-3 mb-3">
-                                <a href="/admin/viewuserdetail/" class="btn btn-secondary">Quay lại</a>
+                                {%if current_user.userRole == admin%}
+                                    <a href="/admin/viewuserdetail/" class="btn btn-secondary">Quay lại</a>
+                                {%else%}
+                                    <a href="/" class="btn btn-secondary">Quay lại</a>
+                                {%endif%}
                                 <a href="{{url_for('xemdiem', profile_id = profile.maSo)}}" class="btn btn-primary">Xem
                                     điểm từng môn</a>
 
