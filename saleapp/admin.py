@@ -37,6 +37,14 @@ class ChatAdmin(BaseView):
         return current_user.is_authenticated and \
             (current_user.userRole == UserRole.NHANVIEN or current_user.userRole == UserRole.SYSADMIN)
 
+class Stat(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('stat.html', admin=UserRole.SYSADMIN)
+
+    def is_accessible(self):
+        return current_user.is_authenticated and \
+            (current_user.userRole == UserRole.NHANVIEN or current_user.userRole == UserRole.SYSADMIN)
 
 class MyAdminIndex(AdminIndexView):
     @expose('/')
@@ -65,4 +73,5 @@ admin = Admin(app=app, name='QUẢN TRỊ MÁY BAY', template_mode='bootstrap4',
 
 admin.add_view(ChatAdmin(name='ChatAdmin'))
 admin.add_view(ViewUserDetail(name='User Detail'))
+admin.add_view(Stat(name='Thống kê'))
 admin.add_view(LogoutView(name='Logout'))
