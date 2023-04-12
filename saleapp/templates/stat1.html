@@ -1,0 +1,74 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>Thống kê môn có điểm trung bình cao nhất theo khoa</h1>
+
+<form method="post" action="/stat1">
+    <div class="form-group">
+        <label>Khoa</label>
+        <select name="khoa" class="col-sm-12 text-secondary p-2">
+            {%for i in khoa%}
+            <option value="{{i.id}}" selected>{{i.name}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Học kì</label>
+        <select name="hocki" class="col-sm-12 text-secondary p-2">
+            {%for i in hocki%}
+            <option value="{{i.id}}" selected>{{i.hocKi}}-{{i.namHoc}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Top</label>
+        <input type="number" name="top" class="form-control"
+               placeholder="Số lượng">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+{%if data_mon%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+     const getChart = document.getElementById('myChart');
+     let data_mon = [], data_diem = []
+
+    {% for i in data_mon %}
+        data_mon.push('{{i}}')
+    {%endfor%}
+
+    {% for i in data_diem %}
+        data_diem.push('{{i}}')
+    {%endfor%}
+
+     new Chart(getChart, {
+    type: 'bar',
+    data: {
+      labels: data_mon,
+      datasets: [{
+        label: 'Thống kê top điểm trung bình theo môn theo khoa',
+        data: data_diem,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+</script>
+
+{%endif%}
+{%endblock%}

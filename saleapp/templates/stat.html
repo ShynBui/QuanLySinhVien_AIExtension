@@ -1,0 +1,19 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Trang chu {% endblock %}
+
+
+{% block content %}
+<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+    Thống kê
+</button>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{{url_for('stat1')}}">Top môn có điểm trung bình cao nhất theo khoa</a>
+    <a class="dropdown-item" href="{{url_for('stat2')}}">Thống kê số lượng sinh viên theo từng khoa</a>
+    <a class="dropdown-item" href="#">Thống kê top sinh viên giỏi nhất</a>
+</div>
+
+{% endblock %}
+
+

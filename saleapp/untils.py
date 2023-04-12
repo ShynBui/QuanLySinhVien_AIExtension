@@ -235,6 +235,20 @@ def get_khoahoc_by_id(id):
 
     return p.first()
 
+def get_top_mon_theo_ky(idmon, idhocky):
+    monhoc = MonHoc.query.filter(MonHoc.idHocKi.__eq__(idhocky),
+                                 MonHoc.id.__eq__(idmon)).first()
+
+
+    if monhoc:
+        diem = db.session.query(Diem.diem, Diem.isMidTerm, MonHoc.tiLeGiuaKi, MonHoc.name,MonHoc.id)\
+                .join(MonHoc, Diem.idMonHoc.__eq__(MonHoc.id))\
+                .filter(Diem.idMonHoc.__eq__(monhoc.id))
+    else:
+        return []
+
+    return diem.all()
+
 def get_nganh_by_id(id):
     p = Nganh.query.filer(Nganh.id == id)
 
@@ -360,7 +374,11 @@ def get_ten_hoc_ki_by_id(id):
 
     return hocki
 
-def get_all_mon_hoc():
+def get_all_mon_hoc(idKhoa=None):
+    if idKhoa:
+        p = MonHoc.query.filter(MonHoc.idKhoa.__eq__(idKhoa))
+        return p.all()
+
     p = MonHoc.query.all()
 
     return p

@@ -7,17 +7,20 @@ from flask_login import login_user, logout_user, login_required, current_user
 import cloudinary.uploader
 from flask_socketio import SocketIO, emit, join_room
 import requests
+import pandas as pd
 
 data = {'profile_id': "",
         'nganh': "",
         'khoa': "",
         'lop': ""}
 
+
 @app.route("/")
 def home():
     return render_template('index.html')
 
-#socket
+
+# socket
 
 @app.route("/chatroom")
 def chat_room():
@@ -59,7 +62,6 @@ def chat_room():
         return redirect(url_for('home'))
 
 
-
 @app.route("/profile/<profile_id>", methods=['post', 'get'])
 def profile(profile_id):
     data['profile_id'] = profile_id
@@ -84,6 +86,7 @@ def profile(profile_id):
     return render_template('profile.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
                            allKhoa=allKhoa, room=room)
 
+
 @app.route('/save_khoa')
 def save_khoa():
     pro = untils.get_profile(data['profile_id'])
@@ -97,7 +100,6 @@ def save_khoa():
     else:
         xhh = "Yếu"
 
-
     room = untils.get_chat_room_by_user_id(pro.user_id)
 
     dob = str(pro.dob.year) + "-" + str(pro.dob.month).zfill(2) + "-" + str(pro.dob.day).zfill(2)
@@ -107,6 +109,7 @@ def save_khoa():
 
     return render_template('save_khoa.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
                            allKhoa=allKhoa, room=room)
+
 
 @app.route('/save_nganh', methods=['POST', 'get'])
 def save_nganh():
@@ -131,6 +134,7 @@ def save_nganh():
     return render_template('save_nganh.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
                            allKhoa=allKhoa)
 
+
 @app.route('/save_lop', methods=['POST'])
 def save_lop():
     data['nganh'] = request.form.get('nganh')
@@ -154,6 +158,7 @@ def save_lop():
     return render_template('save_lop.html', profile=pro, xh=xh, dob=dob, allLop=allLop,
                            allKhoa=allKhoa)
 
+
 @app.route("/save_change2", methods=['post'])
 def save_change2():
     data['lop'] = request.form.get('lop')
@@ -162,6 +167,7 @@ def save_change2():
     untils.save2(data['profile_id'], int(data['lop']))
 
     return redirect(url_for('profile', profile_id=data['profile_id']))
+
 
 @app.route("/xemdiem/<profile_id>")
 def xemdiem(profile_id):
@@ -182,7 +188,8 @@ def xemdiem(profile_id):
 
     diemHeMuoi = []
     for i in range(len(diemGiuaKi)):
-        diemHeMuoi.append(round(diemGiuaKi[i].diem * monhoc[i].tiLeGiuaKi + diemCuoiKi[i].diem * (1 - monhoc[i].tiLeGiuaKi), 1))
+        diemHeMuoi.append(
+            round(diemGiuaKi[i].diem * monhoc[i].tiLeGiuaKi + diemCuoiKi[i].diem * (1 - monhoc[i].tiLeGiuaKi), 1))
 
     diemHeBon = []
     diemChu = []
@@ -216,9 +223,9 @@ def xemdiem(profile_id):
                            monhoc=monhoc, diemHeMuoi=diemHeMuoi, diemHeBon=diemHeBon, diemChu=diemChu,
                            proFile=proFile)
 
+
 @app.route("/xemdiem/change/<mamon>")
 def xemdiem_change(mamon):
-
     diemGiuaKi = untils.xem_all_diem_gk_by_ma_so(maSo=data['profile_id'], maMon=mamon.upper())
     diemCuoiKi = untils.xem_all_diem_ck_by_ma_so(maSo=data['profile_id'], maMon=mamon.upper())
     proFile = untils.get_sinhvien_by_id(data['profile_id'])[0]
@@ -230,7 +237,8 @@ def xemdiem_change(mamon):
 
     diemHeMuoi = []
     for i in range(len(diemGiuaKi)):
-        diemHeMuoi.append(round(diemGiuaKi[i].diem * monhoc[i].tiLeGiuaKi + diemCuoiKi[i].diem * (1 - monhoc[i].tiLeGiuaKi), 1))
+        diemHeMuoi.append(
+            round(diemGiuaKi[i].diem * monhoc[i].tiLeGiuaKi + diemCuoiKi[i].diem * (1 - monhoc[i].tiLeGiuaKi), 1))
 
     diemHeBon = []
     diemChu = []
@@ -264,15 +272,16 @@ def xemdiem_change(mamon):
                            monhoc=monhoc, diemHeMuoi=diemHeMuoi, diemHeBon=diemHeBon, diemChu=diemChu,
                            proFile=proFile)
 
+
 @app.route('/process_change/<mon>', methods=['POST'])
 def process_change(mon):
-
     diemGiuaKi = request.form.get('diemgiuaki')
     diemCuoiKi = request.form.get('diemcuoiki')
 
     untils.update_diem(mon, data['profile_id'], diemGiuaKi, diemCuoiKi)
 
     return redirect(url_for('xemdiem', profile_id=data['profile_id']))
+
 
 @app.route('/themmon', methods=['post', 'get'])
 def themmon():
@@ -319,26 +328,27 @@ def themmon():
 
     return render_template('themmon.html', proFile=proFile, monhoc=monHocChuaHoc, hocKi=hocKi, n=len(monHocChuaHoc))
 
+
 @app.route('/dangkimon/<mon>/hocki<int:hocki>', methods=['POST', 'get'])
 def dangkimon(mon, hocki):
-
     untils.them_mon(data['profile_id'], mon)
 
     return redirect(url_for('xemdiem', profile_id=data['profile_id']))
 
+
 @app.route('/delete_mon/<mon>', methods=['POST', 'get'])
 def delete_mon(mon):
-
     untils.xoa_mon(data['profile_id'], mon)
 
     return redirect(url_for('xemdiem', profile_id=data['profile_id']))
 
+
 @app.route('/delete_user', methods=['POST', 'get'])
 def delete_user():
-
     untils.delete_user(data['profile_id'])
 
     return redirect('/admin/viewuserdetail/')
+
 
 @app.route('/change_profile', methods=['POST'])
 def change_profile():
@@ -361,6 +371,92 @@ def change_profile():
     untils.change_profile(data['profile_id'], name, dob, sex, email, phone, diachi)
 
     return redirect(url_for('profile', profile_id=data['profile_id']))
+
+
+@app.route('/stat')
+def stat():
+    return render_template('stat.html')
+
+
+@app.route('/stat1', methods=['post', 'get'])
+def stat1():
+    diemtbtheomon = []
+    top = 5
+    if request.method == 'POST':
+        idkhoa = request.form.get('khoa')
+        hocki = request.form.get('hocki')
+        top = request.form.get('top')
+
+
+        if top == '':
+            top = 5
+
+        allmon = untils.get_all_mon_hoc(idkhoa)
+
+        print(allmon, hocki)
+
+        diem = []
+
+        for i in allmon:
+            diem.append(untils.get_top_mon_theo_ky(i.id, hocki))
+            print(diem[len(diem) - 1])
+
+
+        for i in range(len(allmon)):
+            diemtb = 0
+            for j in diem[i]:
+                if j.isMidTerm == True:
+                    diemtb = diemtb + j.diem * j.tiLeGiuaKi
+                else:
+                    diemtb = diemtb + j.diem * (1 - j.tiLeGiuaKi)
+            n = len(diem[i]) / 2
+            try:
+                diemtbtheomon.append(round(float(diemtb / n), 2))
+            except:
+                pass
+
+    # print(diemtbtheomon)
+
+    if diemtbtheomon:
+        data = {
+            "mon": allmon,
+            "diemtb": diemtbtheomon
+        }
+    else:
+        data = {
+            "mon": [],
+            "diemtb": []
+        }
+
+    pd_data = pd.DataFrame(data)
+
+    pd_data = pd_data.sort_values(by=['diemtb'], ascending=False)
+
+    # print(pd_data)
+
+    khoa = untils.get_all_khoa()
+    hocki = untils.get_all_hocki()
+
+    data_mon = []
+    data_diem = []
+
+
+    if int(top) > len(pd_data):
+        top = len(pd_data)
+
+    top = int(top)
+    for i in range(top):
+        data_diem.append(pd_data.iloc[i].diemtb)
+        data_mon.append(pd_data.iloc[i].mon)
+
+    return render_template('stat1.html', khoa=khoa, hocki=hocki, data_diem=data_diem,
+                           data_mon=data_mon)
+
+@app.route('/stat2')
+def stat2():
+
+
+    return render_template('stat2.html')
 
 @app.route('/process', methods=['POST'])
 def process():
@@ -429,6 +525,7 @@ def process():
 
     return redirect(url_for('xemdiem', profile_id=data['profile_id']))
 
+
 @app.route("/admin/chatadmin/<int:room_id>")
 def chat_room_admin(room_id):
     if current_user.userRole == UserRole.SYSADMIN or current_user.userRole == UserRole.NHANVIEN:
@@ -467,6 +564,7 @@ def handle_send_message_event(data):
 
     app.logger.info("{}".format(data['user_avatar']))
     socketio.emit('receive_message', data, room=data['room'])
+
 
 @socketio.on('save_message')
 def handle_save_message_event(data):
@@ -532,6 +630,7 @@ def user_register():
 
     return render_template('register.html', err_msg=err_msg)
 
+
 @app.route('/question_answering', methods=['post', 'get'])
 def question_answering():
     predict = ''
@@ -559,6 +658,7 @@ def question_answering():
                            question=question, context=context, answer0=answer0,
                            answer1=answer1, answer2=answer2, answer3=answer3)
 
+
 @app.route('/question', methods=['post', 'get'])
 def question():
     predict = ''
@@ -569,7 +669,6 @@ def question():
         context = request.form.get('context').strip()
         question = request.form.get('question').strip()
 
-
         if context and question:
             predict = untils.predict_question(context, question)
         else:
@@ -577,6 +676,7 @@ def question():
 
     return render_template('question.html', predict=predict,
                            question=question, context=context)
+
 
 @app.route('/predict', methods=['post', 'get'])
 def predict():
@@ -599,9 +699,9 @@ def predict():
         else:
             predict = "Please input fully"
 
-
     return render_template('predict.html', predict=predict,
-                           diem=diem, from_predict= from_predict, to_predict=to_predict)
+                           diem=diem, from_predict=from_predict, to_predict=to_predict)
+
 
 @app.route('/summary', methods=['post', 'get'])
 def summary():
@@ -616,8 +716,8 @@ def summary():
         else:
             summary = "Please input fully"
 
-
     return render_template('sumary.html', summary=summary, text=text)
+
 
 @app.route('/user-login', methods=['get', 'post'])
 def user_signin():
@@ -660,8 +760,6 @@ def user_signout():
 @login.user_loader
 def user_load(user_id):
     return untils.get_user_by_id(user_id=user_id)
-
-
 
 
 if __name__ == '__main__':
