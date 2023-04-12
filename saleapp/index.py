@@ -85,9 +85,34 @@ def profile(profile_id):
     allNganh = untils.get_all_nganh(pro.idKhoa)
     allKhoa = untils.get_all_khoa()
 
+    # print(current_user.userRole)
+
+    return render_template('profile.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
+                           allKhoa=allKhoa, room=room, admin=UserRole.SYSADMIN)
+
+@app.route("/profile_user", methods=['post', 'get'])
+def profile_user():
+    data['profile_id'] = current_user.maSo
+    pro = untils.get_profile(current_user.maSo)
+    xh = "Xuất sắc"
+    if pro.gpa >= 3.6 and pro.diemRL > 90:
+        xh = "Xuất sắc"
+    elif pro.gpa >= 3.2 and pro.diemRL > 80:
+        xh = "Giỏi"
+    elif pro.gpa >= 2.5 and pro.diemRL > 50:
+        xh = "Khá"
+    else:
+        xhh = "Yếu"
+
+    room = untils.get_chat_room_by_user_id(current_user.id)
+
+    dob = str(pro.dob.year) + "-" + str(pro.dob.month).zfill(2) + "-" + str(pro.dob.day).zfill(2)
+
+    allNganh = untils.get_all_nganh(pro.idKhoa)
+    allKhoa = untils.get_all_khoa()
+
     return render_template('profile.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
                            allKhoa=allKhoa, room=room)
-
 
 @app.route('/save_khoa')
 def save_khoa():
@@ -221,9 +246,12 @@ def xemdiem(profile_id):
             diemHeBon.append(0)
             diemChu.append('F')
 
+
     return render_template('xemdiem.html', diemGiuaKi=diemGiuaKi, diemCuoiKi=diemCuoiKi, n=len(diemGiuaKi),
                            monhoc=monhoc, diemHeMuoi=diemHeMuoi, diemHeBon=diemHeBon, diemChu=diemChu,
-                           proFile=proFile)
+                           proFile=proFile, admin=UserRole.SYSADMIN)
+
+
 
 
 @app.route("/xemdiem/change/<mamon>")
@@ -352,7 +380,7 @@ def delete_user():
     return redirect('/admin/viewuserdetail/')
 
 
-@app.route('/change_profile', methods=['POST'])
+@app.route('/change_profile', methods=['POST', 'get'])
 def change_profile():
     profile_id = data['profile_id']
     data['profile_id'] = profile_id
@@ -367,17 +395,19 @@ def change_profile():
     phone = request.form.get('phone')
     khoahoc = request.form.get('khoahoc')
     diachi = request.form.get('diachi')
+    diemrl = request.form.get('diemrl')
 
     # print(name, dob, sex, khoa, nganh, lop, email, phone, khoahoc, diachi)
 
-    untils.change_profile(data['profile_id'], name, dob, sex, email, phone, diachi)
+    untils.change_profile(data['profile_id'], name, dob, sex, email, phone, diachi, diemrl)
 
     return redirect(url_for('profile', profile_id=data['profile_id']))
 
 
+
 @app.route('/stat')
 def stat():
-    return render_template('stat.html')
+    return render_template('stat.html', admin=UserRole.SYSADMIN)
 
 
 @app.route('/stat1', methods=['post', 'get'])

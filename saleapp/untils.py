@@ -189,7 +189,7 @@ def get_profile(mssv):
     return p.first()
 
 
-def change_profile(mssv, name, dob, sex, email, phone, diachi):
+def change_profile(mssv, name, dob, sex, email, phone, diachi, diemrl):
     user = User.query.filter(User.maSo.__eq__(mssv)).first()
 
     user.name = name
@@ -203,6 +203,11 @@ def change_profile(mssv, name, dob, sex, email, phone, diachi):
     user.sdt = phone
     user.diachi = diachi
 
+    db.session.commit()
+
+    sinhvien = SinhVien.query.filter(SinhVien.id == user.idPerson).first()
+
+    sinhvien.diemRL = diemrl
     db.session.commit()
 
     return True

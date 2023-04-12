@@ -22,11 +22,13 @@
                         <h5 class="card-title text mb-0">GPA: {{proFile.gpa}}</h5>
                         <h5 class="card-title text mb-0">Điểm hệ 10: {{proFile.diemHeMuoi}}</h5>
                     </div>
+                    {%if current_user.userRole == admin%}
                     <div class="form-inline mr-5">
                         <a href="{{url_for('themmon')}}">
                             <button type="button" class="btn btn-info">Thêm môn học</button>
                         </a>
                     </div>
+                    {%endif%}
                     <form class="form-inline mr-2">
                         <input name="mon" class="form-control mr-sm-2" type="search" placeholder="Mã môn..."
                                aria-label="Search">
@@ -45,7 +47,10 @@
                             <th scope="col" class="border-0 text-uppercase font-medium">Điểm hệ 10</th>
                             <th scope="col" class="border-0 text-uppercase font-medium">Điểm hệ 4</th>
                             <th scope="col" class="border-0 text-uppercase font-medium">Đánh giá</th>
+                            {%if current_user.userRole == admin%}
                             <th scope="col" class="border-0 text-uppercase font-medium">Quản trị</th>
+                            {%endif%}
+
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +80,7 @@
                             <td>
                                 <span class="text-muted">{{diemChu[i]}}</span><br>
                             </td>
+                            {%if current_user.userRole == admin%}
                             <td class="d-flex justify-content-between align-items-center">
                                 <a href="{{url_for('xemdiem_change', mamon=monhoc[i].idString)}}"
                                    class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i
@@ -85,6 +91,7 @@
                                             class="fa fa-trash"></i></button>
                                 </form>
                             </td>
+                            {%endif%}
                         </tr>
                         {%endfor%}
                         </tbody>
@@ -92,9 +99,11 @@
                     <div class="d-flex justify-content-between m-2">
                         <a href="{{url_for('profile', profile_id= proFile.maSo)}}" class="btn btn-secondary">Thông tin
                             cá nhân</a>
+                        {%if current_user.userRole == admin%}
                         <form action="/process" method="post">
                             <button class="btn btn-primary mr-2" type="submit">Cập nhật điểm</button>
                         </form>
+                        {%endif%}
                     </div>
                 </div>
             </div>
