@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<h1>Thống kê môn có điểm trung bình cao nhất theo khoa</h1>
+<div class="stat_main" style="margin-top:150px">
+    <h1>Thống kê môn có điểm trung bình cao nhất theo khoa</h1>
 
 <form method="post" action="/stat1">
     <div class="form-group">
@@ -32,6 +33,7 @@
 
 <div>
     <canvas id="myChart"></canvas>
+</div>
 </div>
 
 {%if data_mon%}

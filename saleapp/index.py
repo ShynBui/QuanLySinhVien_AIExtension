@@ -22,6 +22,7 @@ def home():
     return render_template('index.html')
 
 
+
 # socket
 
 @app.route("/chatroom")
@@ -790,6 +791,7 @@ def user_register():
                             sex=sex,
                             dob=dob,
                             phone=phone)
+
             return redirect(url_for('user_signin'))
         else:
             err_msg = "Mat khau khong khop"

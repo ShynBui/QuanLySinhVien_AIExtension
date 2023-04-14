@@ -35,6 +35,7 @@ def add_user(name, username, password, diachi, **kwargs):
     user = User(name=name.strip(), username=username, password=password, diachi=diachi,
                 email=kwargs.get('email'), avatar=kwargs.get('avatar'), maSo=maso, userRole=UserRole.SINHVIEN,
                 idPerson=sinhvien.id, dob=kwargs.get('dob'))
+    print(user)
 
     # user1 = User(name="Bùi Tiến Phát", maSo="2051052096", username="2051052096phat@ou.edu.vn",
     #              password=password, email="2051052096phat@ou.edu.vn", joined_date=datetime.now(),

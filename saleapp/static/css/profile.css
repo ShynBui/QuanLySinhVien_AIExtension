@@ -19,3 +19,17 @@ body{
     margin-right: .5rem!important;
 }
 
+.main-body{
+    margin-top:35px;
+}
+.btn-secondary {
+    color: #fff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d;
+}
+.mb-0{
+        font-size: 15px;
+}
+.form-control{
+    font-size:15px;
+}
