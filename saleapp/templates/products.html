@@ -3,9 +3,15 @@
 {% block title %} Trang chu {% endblock %}
 
 {% block content %}
-<img src="{{ url_for('static', filename='images/hero-bg.svg') }}" style="position: absolute; z-index:-1; top:-200px" alt="">
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    {% for cate in cates %}
+    <a class="dropdown-item" href="/products?category_id={{cate.id}}">{{cate.name}}</a>
+    {% endfor %}
+</div>
+<img src="{{ url_for('static', filename='images/hero-bg.svg') }}" style="position: absolute; z-index:-1; top:-200px"
+     alt="">
 <div class="products_total">
-
+    <div class="products__banner" style="margin-top:200px">
         <form class="form-inline form__search">
 
             <input class="form-control mr-sm-2 search" name="keyword" type="search"
@@ -13,10 +19,11 @@
                    aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img
                     src="https://img.alicdn.com/imgextra/i1/O1CN01WaDuwO256WBsSocYY_!!6000000007477-2-tps-48-48.png"
-                    alt="">
+                    alt="">Tìm
+                kiếm
             </button>
         </form>
-
+    </div>
     <div class="products__main">
 
         <div class="book__mark">
