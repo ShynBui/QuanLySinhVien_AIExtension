@@ -67,6 +67,51 @@ class Message(db.Model):
     def __str__(self):
         return self.content
 
+
+class Loai(db.Model):
+    __abstract__ = True
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255))
+    description = Column(Text)
+class Priority(db.Model):
+    __tablename__ = 'priority'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    mucDo = Column(Integer)
+    task = relationship('Task', backref='priority', lazy=True)
+
+    def __str__(self):
+        return self.name
+
+class LoiNhac(Loai):
+    __tablename__ = 'loinhac'
+
+    isLoop = Column(Boolean, default=True)
+    hour = Column(Integer, nullable=False)
+    task = relationship('Task', backref='loinhac', lazy=True)
+
+    def __str__(self):
+        return self.id
+class Task(db.Model):
+    __tablename__ = 'task'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
+    startAt = Column(DateTime, nullable=False)
+    deadline = Column(DateTime, nullable=False)
+    finish = Column(Boolean, default=False)
+    idPriority = Column(Integer, ForeignKey(Priority.id), nullable=False, primary_key=True)
+    idUser = Column(Integer, ForeignKey(User.id), nullable=False, primary_key=True)
+    idLoiNhac = Column(Integer, ForeignKey(LoiNhac.id), nullable=False, primary_key=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+
 class Khoa(BaseModel):
     __tablename__ = 'khoa'
 
@@ -368,6 +413,15 @@ if __name__ == '__main__':
         gvmh3 = GiangVienMonHoc(idGiangVien=giangvien3.id, idMonHoc=monhoc3.id)
         gvmh4 = GiangVienMonHoc(idGiangVien=giangvien4.id, idMonHoc=monhoc4.id)
         db.session.add_all([gvmh1, gvmh2, gvmh3, gvmh4])
+        db.session.commit()
+
+        db.session.commit()
+
+        pri1 = Priority(name="Hard", mucDo=1)
+        pri2 = Priority(name="Normal", mucDo=2)
+        pri3 = Priority(name="Easy", mucDo=3)
+
+        db.session.add_all([pri1, pri2, pri3])
         db.session.commit()
 
         db.session.commit()

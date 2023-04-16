@@ -4,16 +4,17 @@
 
 
 <div class="stat_main" style="margin-top:150px">
-<h1>Thống kê top sinh viên giỏi nhất theo khoa</h1>
+    <h1 style="display:flex; justify-content:center">Thống kê top sinh viên giỏi nhất theo khoa</h1>
 
-<a href="{{url_for('stat3_1')}}" type="button" class="btn btn-primary">
-    <i class="bi bi-plus"></i> Nghành công nghệ thông tin
-</a>
-<a href="{{url_for('stat3_2')}}" type="button" class="btn btn-secondary">Ngành hệ thống thông tin quản lý</a>
-<div>
-    <canvas id="myChart"></canvas>
-</div>
+    <div class="nganh" style="display:flex; justify-content:space-around; margin-top:4%"><a href="{{url_for('stat3_1')}}" type="button" class="btn btn-primary">
+        <i class="bi bi-plus"></i> Nghành công nghệ thông tin
+    </a>
+        <a href="{{url_for('stat3_2')}}" type="button" class="btn btn-secondary">Ngành hệ thống thông tin quản lý</a>
+    </div>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </div>
 {%endblock%}

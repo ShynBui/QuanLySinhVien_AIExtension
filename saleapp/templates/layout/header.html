@@ -9,7 +9,12 @@
             <img src="{{ url_for('static', filename='images/logo.svg') }}" width="162" height="50" alt="EduWeb logo">
         </a>
 
-        <nav class="navbar" data-navbar>
+
+
+        <div class="header-actions">
+
+            {%if current_user.is_authenticated %}
+             <nav class="navbar" data-navbar>
 
             <div class="wrapper">
                 <a href="#" class="logo">
@@ -24,34 +29,32 @@
             <ul class="navbar-list">
 
                 <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link>Home</a>
+                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link><i class='bx bxs-home'></i>Trang chủ</a>
                 </li>
 
 
                 <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link>About</a>
+                    <a href="{{url_for('calendar')}}" class="navbar-link" data-nav-link><i class='bx bxs-calendar' ></i>Thời gian biểu</a>
                 </li>
 
                 <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link>Courses</a>
+                    <a href="{{url_for('stat')}}" class="navbar-link" data-nav-link><i class='bx bxs-coin-stack' ></i>Thống kê</a>
                 </li>
 
                 <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link>Blog</a>
+                    <a href="{{url_for('chat_room')}}" class="navbar-link" data-nav-link><i class='bx bx-support' ></i>Hỗ trợ</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link><i class='bx bx-support' ></i>Luyện tập</a>
                 </li>
 
                 <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link>Contact</a>
+                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link><i class='bx bxs-contact' ></i>Môn học cũ</a>
                 </li>
 
             </ul>
 
         </nav>
-
-        <div class="header-actions">
-
-            {%if current_user.is_authenticated %}
-
             <ul class="navbar-item usermenu">
                 <a class="nav-link" href="{{url_for('profile_user')}}">
                     {%if current_user.avatar %}

@@ -3,12 +3,12 @@
         width: 60%;
     height: 85%;
     margin:0 auto;
-
+    box-shadow: 8px 5px 96px #8888
 }
 .header__chat{
 border: 1px solid #fff0f0;
-    margin-top:110px;
-    height:5%;
+    margin-top:105px;
+    height:8%;
     width: 100%;
     background-color:#fff;
     border-color: #cfcfcf;
@@ -21,7 +21,7 @@ border: 1px solid #fff0f0;
 
 
 overflow-y:scroll;
- height: 90% !important;
+ height: 87% !important;
 padding:10px;
     border: 1px solid #fff0f0;
  border-color: #cfcfcf;
