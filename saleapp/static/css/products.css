@@ -1,0 +1,78 @@
+.products__banner{
+    position: relative;
+
+}
+.products__main{
+    width:58%;
+    margin: 0 auto;
+}
+.form__search{
+    width: 900px;
+    height: 112px;
+    background: #2a2a2a;
+    position: absolute;
+    justify-content: space-around;
+    left: 485px;
+    bottom: 0;
+    border-top: 3px solid #ff6a00;
+}
+.form__search > input{
+    width:525px !important;
+    height:44px;
+    border-radius: unset;
+}
+.form__search > button{
+    width:155px;
+    height:45px;
+    background-color:  #ff6a00;
+    border-color: #ff6a00;
+    color: white;
+    border-radius: unset;
+}
+.form__search > button > img{
+    margin-right:10px;
+    width: 16px;
+    height: 16px;
+}
+
+
+
+
+.card{
+    width:255px;
+    height:427px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:20px;
+    transition: all 0.5s;
+}
+.card:hover{
+   box-shadow: #333333 0px 12.6006px 25.2012px 0px;
+
+}
+.card > img{
+    width: 193px;
+    height: 250px;
+    padding-top:7px;
+      transition: all 0.5s;
+}
+.card:hover > img{
+    transform: scale(1.02);
+}
+.card-text{
+    color:red;
+    font-weight:700;
+
+
+}
+.book__mark{
+    display:flex;
+}
+.book__mark h4{
+    padding-top:3px;
+    padding-left:2px;
+}
+box-icon{
+
+}

@@ -114,3 +114,9 @@ var countDownDate = new Date("2023-06-28T07:00:00Z").getTime();
 
 // doi chu
 
+ function changeImage(element) {
+
+              var main_prodcut_image = document.getElementById('main_product_image');
+              main_prodcut_image.src = element.src;
+
+        }

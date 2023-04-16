@@ -1,0 +1,252 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Chi tiết sản phẩm {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/products_details.css"/>
+{%endblock%}
+{% block content %}
+<div id="container">
+
+<!-- Start	Product details -->
+	<div class="product-details">
+
+		<!-- 	Product Name -->
+	<h1>{{product.name}}</h1>
+<!-- 		<span class="hint new">New</span> -->
+<!-- 		<span class="hint free-shipping">Free Shipping</span> -->
+<!-- 		the Product rating -->
+	<div class="div">
+        <span class="hint-star star">
+		<i class="fa fa-star" aria-hidden="true"></i>
+		<i class="fa fa-star" aria-hidden="true"></i>
+		<i class="fa fa-star" aria-hidden="true"></i>
+			<i class="fa fa-star" aria-hidden="true"></i>
+            	<i class="fa fa-star" aria-hidden="true"></i>
+	</span>
+    </div>
+
+
+<!-- The most important information about the product -->
+		<p class="information" style="color:#4c4c4c; font-weight:1000px; ">" {{product.description}} "</p>
+<h3 style="color:#ff3f40; font-size: 50px; font-weight:700px;">{{ "{:,.0f}".format(product.price) }} VNĐ</h3>
+        <span>99 reviews</span>
+
+<!-- 		Control -->
+<div class="control">
+
+<!-- Start Button buying -->
+    <a href="/cart">
+        <button class="btn">
+<!-- 		the Price -->
+	 <span class="price">49 $</span>
+<!-- 		shopping cart icon-->
+            <a href="/cart">
+                 <span class="shopping-cart"><i class="fa fa-shopping-cart"  aria-hidden="true"></i></span>
+            </a>
+<!-- 		Buy Now / ADD to Cart--><span class="buy">Buy Now</span>
+ </button>
+    </a>
+        <a onclick="addToCart({{product.id}}, '{{product.name}}', {{product.price}})">
+                            <button class="btn2">Add to Basket</button>
+                        </a>
+
+
+</div>
+
+</div>
+
+<!-- 	End	Product details   -->
+
+
+
+<!-- 	Start product image & Information -->
+
+<div class="product-image">
+
+	<img src="{{product.image}}" alt="Omar Dsoky">
+
+<!-- 	product Information-->
+<div class="info">
+	<h2>The Description</h2>
+	<ul>
+		<li><strong>Tên sách: </strong>{{product.name}}</li>
+		<li><strong>Số lượng:</strong>{{product.quantity}}</li>
+        <li><strong>Lượt mua hàng: </strong>231</li>
+		<li><strong>Lượt đánh giá 5 sao: </strong>83</li>
+
+
+		<li><strong>Chúc quý khách mua hàng vui vẻ! </strong></li>
+	</ul>
+</div>
+</div>
+<!--  End product image  -->
+
+
+</div>
+
+
+
+
+<!--<div class="container mt-5 mb-5">-->
+<!--    <div class="card">-->
+<!--        <div class="row g-0">-->
+<!--            <div class="col-md-6 border-end">-->
+<!--                <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>-->
+
+<!--<a id="view-code" href="https://codepen.io/virgilpana/pen/RNYQwB" target="_blank">VIEW CODE</a>-->
+
+<!--<div id="make-3D-space">-->
+<!--    <div id="product-card">-->
+<!--        <div id="product-front">-->
+<!--        	<div class="shadow"></div>-->
+<!--            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />-->
+<!--            <div class="image_overlay"></div>-->
+<!--            <div id="view_details">View details</div>-->
+<!--            <div class="stats">-->
+<!--                <div class="stats-container">-->
+<!--                    <span class="product_price">$39</span>-->
+<!--                    <span class="product_name">Adidas Originals</span>-->
+<!--                    <p>Men's running shirt</p>-->
+
+<!--                    <div class="product-options">-->
+<!--                    <strong>SIZES</strong>-->
+<!--                    <span>XS, S, M, L, XL, XXL</span>-->
+<!--                    <strong>COLORS</strong>-->
+<!--                    <div class="colors">-->
+<!--                        <div class="c-blue"><span></span></div>-->
+<!--                        <div class="c-red"><span></span></div>-->
+<!--                        <div class="c-white"><span></span></div>-->
+<!--                        <div class="c-green"><span></span></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id="product-back">-->
+<!--	        <div class="shadow"></div>-->
+<!--            <div id="carousel">-->
+<!--                <ul>-->
+<!--                    <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large.png" alt="" /></li>-->
+<!--                    <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large2.png" alt="" /></li>-->
+<!--                    <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large3.png" alt="" /></li>-->
+<!--                </ul>-->
+<!--                <div class="arrows-perspective">-->
+<!--                    <div class="carouselPrev">-->
+<!--                        <div class="y"></div>-->
+<!--	                    <div class="x"></div>-->
+<!--                    </div>-->
+<!--                    <div class="carouselNext">-->
+<!--                        <div class="y"></div>-->
+<!--	                    <div class="x"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="flip-back">-->
+<!--            	<div id="cy"></div>-->
+<!--                <div id="cx"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--                <div class="d-flex flex-column justify-content-center" style="align-items: center">-->
+<!--                    <div class="main_image"><img src="{{product.image}}" id="main_product_image"-->
+<!--                                                 width="350"></div>-->
+<!--                    <div class="thumbnail_images">-->
+<!--                        <ul id="thumbnail" style="display : flex; just">-->
+<!--                            <li><img onclick="changeImage(this)" src="{{product.image}}" width="140">-->
+<!--                            </li>-->
+<!--                            <li><img onclick="changeImage(this)" src="{{product.image}}" width="140">-->
+<!--                            </li>-->
+<!--                            <li><img onclick="changeImage(this)" src="{{product.image}}" width="140">-->
+<!--                            </li>-->
+
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                <div class="p-3 right-side">-->
+<!--                    <div class="d-flex justify-content-between align-items-center"><h3>{{product.name}}</h3>    <span-->
+<!--                            class="heart"><i class='bx bx-heart'></i></span></div>-->
+<!--                    <div class="mt-2 pr-3 content"><p>{{product.description}}</p></div>-->
+<!--                    <h3>{{product.price}}</h3>-->
+<!--                    <div class="ratings d-flex flex-row align-items-center">-->
+<!--                        <div class="d-flex flex-row"><i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i-->
+<!--                                class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i>-->
+<!--                        </div>-->
+<!--                        <span>441 reviews</span></div>-->
+<!--                    <div class="mt-5"><span class="fw-bold"></span>-->
+
+<!--                    </div>-->
+<!--                    <div class="buttons d-flex flex-row mt-5 gap-3">-->
+<!--                        <a href="/cart">-->
+<!--                            <button class="btn btn-outline-dark">Buy Now</button>-->
+<!--                        </a>-->
+<!--                        <a onclick="addToCart({{product.id}}, '{{product.name}}', {{product.price}})">-->
+<!--                            <button class="btn btn-dark">Add to Basket</button>-->
+<!--                        </a>-->
+
+
+<!--                    </div>-->
+<!--                    <div class="search-option"><i class='bx bx-search-alt-2 first-search'></i>-->
+<!--                        <img src="..\static\image\goku.gif">-->
+<!--                        <i class='bx bx-share-alt share'></i></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <br>
+    <br>
+<div class="container2">
+
+    {%if current_user.is_authenticated %}
+    <div class="row">
+        <div class="form-group">
+            <textarea id="commentId" class="form-control" placeholder="Nhập nội dung để bình luận...">
+            </textarea>
+            <input type="button" class="btn btn-dark" value="Bình luận" onclick="addComment({{product.id}})"/>
+        </div>
+    </div>
+    {%else%}
+    <a href="{{url_for('user_signin')}}"> Đăng nhập để bình luận</a>
+    {%endif%}
+    <br>
+    <br>
+    <div id="commentArea">
+        {%for c in comments%}
+        <div class="row comment">
+            <div class="col-md-1">
+                {% if c.user.avatar and c.user.avatar.startswith('https') %}
+                <img src="{{c.user.avatar}}" class="rounded-circle img-fluid" width="50px" height="50px"/>
+                {%else%}
+                <img src="{{url_for('static', filename='image/wibu.png')}}" class="rounded-circle img-fluid"
+                     width="50px" height="50px"/>
+                {%endif %}
+            </div>
+            <div class="col-md-11">
+                <p>{{c.content}}</p>
+                <p>
+                    <em class="myDate"> {{c.created_date}} </em>
+                </p>
+            </div>
+        </div>
+
+        {%endfor%}
+    </div>
+
+    <ul class="pagination">
+        {%if pages > 1%}
+        {% for i in range(1, pages + 1) %}
+        <li class="page-item"><a class="page-link" href="{{url_for('product_detail',product_id= product.id, page=i)}}">{{i}}</a>
+        </li>
+        {% endfor %}
+        {%endif%}
+    </ul>
+</div>
+</div>
+
+
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Trang chu {% endblock %}
+
+{% block content %}
+<div class="products__banner">
+    <img src="https://sachweb.com/images/inner-banner.png" alt="">
+    <form class="form-inline form__search">
+
+        <input class="form-control mr-sm-2 search" name="keyword" type="search" placeholder="Nhập từ khóa để tìm kiếm..."
+               aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img
+                src="https://img.alicdn.com/imgextra/i1/O1CN01WaDuwO256WBsSocYY_!!6000000007477-2-tps-48-48.png" alt="">Tìm
+            kiếm
+        </button>
+    </form>
+</div>
+
+
+
+<br>
+<div class="products__main">
+    <div class="book__mark">
+        <box-icon type='solid' color="red" size='sm' name='bookmark'></box-icon>
+         <h4>Danh mục sản phẩm</h4>
+    </div>
+    {% if products %}
+
+    <div class="row">
+        {% for p in products %}
+        <div class="col-md-3 col-sm-12" style="padding:1rem;">
+            <div class="card">
+                <img class="card-img-top" src="{{ p.image }}" alt="{{ p.name }}" height="380px">
+                <div class="card-body">
+                    <h4 class="card-title">{{ p.name }}</h4>
+                    <p class="card-text" style="color:red; font-weight:500; font-size:14px">{{ "{:,.0f}".format(p.price) }} VNĐ</p>
+                    <div class="book_products">
+                         <a href="{{url_for('product_detail', product_id=p.id)}}" class="btn btn-primary">Xem chi tiết</a>
+                    <a href="javascript:;" onclick="addToCart({{p.id}}, '{{p.name}}', {{p.price}})"
+                       class="btn btn-danger" onclick="addToCart({{p.id}}, '{{p.name}}', {{p.price}})">Đặt hàng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h4 class="text-danger">Không có sản phầm nào!</h4>
+    {% endif %}
+
+    <ul class="pagination d-flex justify-content-center">
+        {%if pages > 1%}
+        {% for i in range(1, pages + 1) %}
+            <li class="page-item"><a class="page-link" href="{{url_for('product_list', page=i, category_id=cate_id)}}">{{i}}</a></li>
+        {% endfor %}
+        {%endif%}
+    </ul>
+</div>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="../static/css/products.css"/>
+{%endblock%}

@@ -11,9 +11,11 @@ from joblib import dump, load
 app = Flask(__name__)
 
 app.secret_key = '689567gh$^^&*#%^&*^&%^*DFGH^&*&*^*'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Admin123@localhost/quanlysinhvien?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost/quanlysinhvien?charset=utf8mb4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
+app.config['PAGE_SIZE'] = 8
+app.config['COMMENT_SIZE'] = 8
+app.config['PAGE_INF'] = 9999
 
 cloudinary.config(
     cloud_name = "dhffue7d7",
