@@ -1149,5 +1149,9 @@ def common_response():
         'cart_stats': untils.count_cart(session.get('cart'))
     }
 
+@app.route("/note")
+def note():
+    return  render_template('note.html')
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)

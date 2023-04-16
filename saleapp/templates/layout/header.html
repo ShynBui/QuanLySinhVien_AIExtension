@@ -44,13 +44,16 @@
                 <li class="navbar-item">
                     <a href="{{url_for('chat_room')}}" class="navbar-link" data-nav-link><i class='bx bx-support' ></i>Hỗ trợ</a>
                 </li>
-                <li class="navbar-item">
-                    <a href="{{url_for('home')}}" class="navbar-link" data-nav-link><i class='bx bx-support' ></i>Luyện tập</a>
-                </li>
+
 
                 <li class="navbar-item">
                     <a href="{{url_for('home')}}" class="navbar-link" data-nav-link><i class='bx bxs-contact' ></i>Môn học cũ</a>
                 </li>
+                <li class="nav-item header__icon"><i class='bx bx-cart-alt' name="cart"></i>
+                <a class="nav-link" href="{{url_for('cart')}}">
+                    Giỏ hàng <span style="background:hsl(160.14deg 65.02% 43.73%);border-radius:6px; padding:7px; margin-left:3px;" class="badge badge-info cartCounter"> {{cart_stats.total_quantity}} </span>
+                </a>
+            </li>
 
             </ul>
 

@@ -1454,19 +1454,23 @@ transform: scale(1.05);
     display:flex;
     align-items: center;
     transition:0.5s;
+
     }
     .usermenu ul{
     background: hsl(42deg 33.33% 94.12%);
     width: 170px;
     border-radius: 19px;
     position:absolute;
-    display:none;
-    top:67px;
+    display: none;
+    top:38px;
      box-shadow: var(--shadow-3);
-     right:-12px;
+     right:-33px;
 
     }
-
+.header__icon{
+    display:flex;
+    align-items:center;
+}
     .usermenu:hover ul{
         display:block;
     }
