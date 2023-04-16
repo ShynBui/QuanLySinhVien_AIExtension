@@ -58,11 +58,10 @@
             <ul class="navbar-item usermenu">
                 <a class="nav-link" href="{{url_for('profile_user')}}">
                     {%if current_user.avatar %}
-                    <img class="rounded-circle"
-                         src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/315256594_1475404026274288_2347858660450415372_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OMXwsJ82g7MAX9eiI6T&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfDlQ7ixYpcKYM6YB-hY2t0LkPyZe3INOHwJTjwSv4eIKQ&oe=643B1080"
-                         width="50" height="30px">
+                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="30">
+
                     {%else%}
-                    <img class="rounded-circle" src="{{url_for('static', filename='image/wibu.png')}}" width="30">
+                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="30">
                     {%endif%}
                     <!--                        {{current_user.username}}-->
                 </a>

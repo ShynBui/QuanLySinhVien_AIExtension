@@ -38,6 +38,8 @@ class User(BaseModel, UserMixin):
     facebook = Column(String(255), default="https://www.facebook.com/phat.buitien.54")
 
     message = relationship('Message', backref='user', lazy=True)
+    comment = relationship('Comment', backref='user', lazy=True)
+    user_receipt = relationship('UserReceipt', backref='user', lazy=True)
 
     def __str__(self):
         return self.name
@@ -108,8 +110,6 @@ class Task(db.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 class Khoa(BaseModel):
@@ -236,6 +236,108 @@ class GiangVienMonHoc(BaseModel):
 
     idGiangVien = Column(Integer, ForeignKey(GiangVien.id), nullable=False, primary_key=True)
     idMonHoc = Column(Integer, ForeignKey(MonHoc.id), nullable=False, primary_key=True)
+
+class Category(BaseModel):
+    __tablename__ = 'category'
+    __table_args__ = {'extend_existing': True}
+    name = Column(String(50), nullable=False)
+    products = relationship('Product', backref='category', lazy=True)
+
+    def __str___(self):
+        return self.name
+
+
+class Product(BaseModel):
+    __tablename__ = 'product'
+    # __table_args__ = {'extend_existing': True}
+    name = Column(String(50), nullable=False)
+    description = Column(Text)
+    price = Column(Float, default=0)
+    image = Column(Text)
+    active = Column(Boolean, default=True)
+    quantity = Column(Integer, default=0)
+    category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+    receipt_details = relationship('ReceiptDetail', backref='product', lazy=True)
+    comments = relationship('Comment', backref='product', lazy=True)
+    sach_tacgia = relationship('SachTacGia', backref='product', lazy=True)
+    chitietnhapsach = relationship('ChiTietNhapSach', backref='product', lazy=True)
+
+    def __str___(self):
+        return self.name
+
+class Note(BaseModel):
+    __abstract__ = True
+    # __table_args__ = {'extend_existing': True}
+    created_date = Column(DateTime, default= datetime.now())
+
+    def __str___(self):
+        return self.created_date
+
+class Receipt(Note):
+    __tablename__ = 'receipt'
+    # __table_args__ = {'extend_existing': True}
+    details = relationship('ReceiptDetail', backref='receipt', lazy=True)
+    user_receipt = relationship('UserReceipt', backref='receipt', lazy=True)
+    payment = Column(Boolean, default=True)
+
+    def __str___(self):
+        return self.created_date
+
+class UserReceipt(db.Model):
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False, primary_key=True)
+    receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False, primary_key=True)
+
+class PhieuNhapSach(Note):
+    __tablename__ = 'phieunhapsach'
+    chitietnhapsach = relationship('ChiTietNhapSach', backref='phieunhapsach', lazy=True)
+
+    def __str___(self):
+        return self.created_date
+
+
+class ReceiptDetail(db.Model):
+    __tablename__ = 'receiptdetail'
+    __table_args__ = {'extend_existing': True}
+    receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False, primary_key=True)
+    product_id = Column(Integer, ForeignKey(Product.id), nullable=False, primary_key=True)
+    quantity = Column(Integer, default=0)
+    unit_price = Column(Float, default=0)
+
+
+class ChiTietNhapSach(db.Model):
+    __tablename__ = 'chitietnhapsach'
+    quantity = Column(Integer, default=0)
+    product_id = Column(Integer, ForeignKey(Product.id), nullable=False, primary_key=True)
+    phieunhapsach_id = Column(Integer, ForeignKey(PhieuNhapSach.id), nullable=False, primary_key=True)
+
+
+class Comment(BaseModel):
+    content = Column(String(255), nullable = False)
+    product_id = Column(Integer, ForeignKey(Product.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+
+    def __str___(self):
+        return self.content
+
+
+class TacGia(BaseModel):
+    name = Column(String(100), nullable=False)
+    sach_tacgia = relationship('SachTacGia', backref='tacgia', lazy=True)
+
+    def __str___(self):
+        return self.name
+
+
+class SachTacGia(db.Model):
+    tacgia_id = Column(Integer, ForeignKey(TacGia.id), nullable=False, primary_key=True)
+    product_id = Column(Integer, ForeignKey(Product.id), nullable=False, primary_key=True)
+
+class Rule(BaseModel):
+    name = Column(String(100), nullable=False, unique=True)
+    value = Column(Integer, nullable=False)
+    description = Column(Text)
 
 
 if __name__ == '__main__':
@@ -422,6 +524,17 @@ if __name__ == '__main__':
         pri3 = Priority(name="Easy", mucDo=3)
 
         db.session.add_all([pri1, pri2, pri3])
+        db.session.commit()
+
+        #product
+        c = Category(name='Lap Trinh')
+        db.session.add(c)
+        db.session.commit()
+
+        p = Product(name="Hướng đối tượng", description="None", price=100000,
+                    image="https://ctgt.uit.edu.vn/sites/default/files/sach/21_0.jpg",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
         db.session.commit()
 
         db.session.commit()
