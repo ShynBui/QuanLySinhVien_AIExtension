@@ -28,7 +28,7 @@ function addToCart(id, name, price) {
 }
 
 function pay() {
-    if(confirm('Bạn chắc chắn thanh toán không?') == true) {
+    if(confirm('Bạn chắc chắn thuê không?') == true) {
         fetch('/api/pay', {
             method: 'post'
         }).then(function(res){
@@ -36,24 +36,7 @@ function pay() {
             return res.json()
         }).then(function(data){
             if (data.code == 200)
-                alert('Thanh toán thành công')
-                location.reload()
-        }).catch(function(err){
-            console.error(err)
-        })
-    }
-}
-
-function pay2() {
-    if(confirm('Bạn chắc chắn muốn thanh toán không?') == true) {
-        fetch('/api/pay2', {
-            method: 'post'
-        }).then(function(res){
-            console.info(res)
-            return res.json()
-        }).then(function(data){
-            if (data.code == 200)
-                alert('Thanh toán thành công\n Mã hóa đơn của bạn là: ' + data.receipt + '\nHãy thanh toán trong: ' + data.time +' giờ tới' )
+                alert('Thuê thành công! Sách sẽ được gửi đến cơ sở học của bạn trong 3 ngày làm việc')
                 location.reload()
         }).catch(function(err){
             console.error(err)

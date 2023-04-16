@@ -13,3 +13,14 @@ h5:hover{
 .container{
 
 }
+.controlBtn{
+    display:flex;
+
+}
+.btn-success:hover{
+    color:black;
+}
+btn1{
+    padding:20px 25spx;
+    background: black;
+}

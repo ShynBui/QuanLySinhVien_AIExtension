@@ -3,7 +3,7 @@
 {% block title %} Giỏ hàng {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="margin-top:135px">
     <h3> Giỏ hàng </h3>
 
 {% if 'cart' in session and session['cart'] %}
@@ -16,7 +16,7 @@
             Tên sản phẩm
         </th>
         <th class="th_head">
-            Đơn giá
+            Giá thuê
         </th>
         <th class="th_head">
             Số lượng
@@ -35,7 +35,7 @@
             </div>
         </td>
         <td>
-            <input type="button" value="Xóa" class="btn btn-danger" onclick="deleteCart({{c.id}})"/>
+            <input type="button" value="Xóa" class="btn1 btn-danger" style="padding:10px 15px; background:black; width:50%; color:white; border-radius:12px; margin: 0 auto;" onclick="deleteCart({{c.id}})"/>
         </td>
     </tr>
     {% endfor %}
@@ -47,9 +47,10 @@
 </div>
 
 {%if current_user.is_authenticated %}
-<input type="button" value="Thanh toán online" class = "btn btn-success" style = "margin-bottom: 15px" onclick ="pay()"/>
+<div class="controlBtn">
+    <input type="button" value="Thuê ngay" class = "btn btn-success" style = "background: #04aa6d;margin-bottom: 15px" onclick ="pay()"/>
 
-<input type="button" value="Thanh toán trực tiếp" class = "btn btn-info ml-4" style = "margin-bottom: 15px" onclick ="pay2()"/>
+</div>
 {%else%}
 <a href="{{url_for('user_signin', next = 'cart')}}">Đăng nhập để thanh toán</a>
 {%endif%}
@@ -63,5 +64,5 @@
 </div>
 {% endblock %}
 {% block css %}
-<link rel="stylesheet" href="../static/css/cart.css"/>
+<link rel="stylesheet" href="{{url_for('static', filename='css/cart.css')}}"/>
 {%endblock%}

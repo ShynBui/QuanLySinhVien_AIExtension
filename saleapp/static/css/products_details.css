@@ -86,6 +86,7 @@
 /* control */
 
 .control{
+display:flex;
 	position: absolute;
 	bottom: 20%;
 	left: 22.8%;
@@ -93,24 +94,13 @@
 }
 /* the Button */
 .btn {
-	transform: translateY(0px);
-	transition: 0.3s linear;
-	background: #49C608;
-	border-radius: 5px;
-  position: relative;
-  overflow: hidden;
-	cursor: pointer;
-	outline: none;
-	border: none;
-	color: #eee;
-	padding: 0;
-	margin: 0;
+
 
 }
 
-.btn:hover{transform: translateY(-4px);}
+.btn1:hover{transform: translateY(0px);}
 
-.btn span {
+.btn1 span {
 	font-family: 'Farsan', cursive;
 	transition: transform 0.3s;
 	display: inline-block;
@@ -128,14 +118,17 @@
 	border:unset;
 }
 
-.btn .price {
-	transform: translateX(-10%); padding-right: 15px;
+.btn1 .price {
+    position:absolute;
+	transform: translateX(0%); padding-right: 15px;
 	color:white;
-	background: #333;
+	width:100%;
+	background: #04aa6d;
+	right:-100%;
 }
 
 /* the Icon */
-.btn .shopping-cart {
+.btn1 .shopping-cart {
 	transform: translateX(-100%);
   position: absolute;
 	background: #333;
@@ -145,11 +138,13 @@
 }
 
 /* buy */
-.btn .buy {z-index: 3; font-weight: bolder;}
+.btn1 .buy {z-index: 3; font-weight: bolder;}
 
-.btn:hover .price {transform: translateX(-110%);}
+.btn1:hover .price {
+transform: translateX(-100%);
+}
 
-.btn:hover .shopping-cart {transform: translateX(0%);}
+
 
 
 
@@ -196,10 +191,25 @@
 width:50%;
 margin : 0 auto;
 }
+.btn1{
+    transform: translateY(0px);
+	transition: 0.3s linear;
+	background: #000;
+	border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	color: #eee;
+	padding: 0;
+	margin: 0;
+	padding-right:50px;
+}
 .btn2{
         transform: translateY(0px);
     transition: 0.3s linear;
-    background: #49C608;
+    background: #6c757d;
     border-radius: 5px;
     position: relative;
     overflow: hidden;
@@ -215,3 +225,5 @@ margin : 0 auto;
     margin-left:25px;
 }
 .btn2:hover{transform: translateY(-4px); color: black;}
+
+

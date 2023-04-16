@@ -6,6 +6,18 @@
     width:58%;
     margin: 0 auto;
 }
+.form-inline{
+    display:flex;
+    align-items:center;
+}
+.book_products{
+    display:flex;
+}
+a{
+    margin-top:10px;
+    padding:10px 15px !important;
+    margin-right:5px;
+}
 .form__search{
     width: 900px;
     height: 112px;
@@ -76,3 +88,5 @@
 box-icon{
 
 }
+
+
