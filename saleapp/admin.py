@@ -164,13 +164,13 @@ class ImportView(BaseView):
 
 
 
-admin = Admin(app=app, name='QUẢN TRỊ MÁY BAY', template_mode='bootstrap4',
+admin = Admin(app=app, name='QUẢN TRỊ SINH VIÊN', template_mode='bootstrap4',
               index_view=MyAdminIndex())
 
-admin.add_view(ChatAdmin(name='ChatAdmin'))
+admin.add_view(ChatAdmin(name='Chat Admin'))
 admin.add_view(ViewUserDetail(name='User Detail'))
 admin.add_view(Stat(name='Thống kê'))
-admin.add_view(DeleteView(name='Delete'))
-admin.add_view(ImportView(name='Import'))
-admin.add_view(PayView(name='Payment'))
+admin.add_view(DeleteView(name='Xóa sách'))
+admin.add_view(ImportView(name='Thêm sách'))
+admin.add_view(PayView(name='Hóa đơn'))
 admin.add_view(LogoutView(name='Logout'))

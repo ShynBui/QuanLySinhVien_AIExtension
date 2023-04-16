@@ -93,9 +93,8 @@
     {%if current_user.is_authenticated %}
     <div class="row">
         <div class="form-group">
-            <textarea id="commentId" class="form-control" placeholder="Nhập nội dung để bình luận...">
-            </textarea>
-            <input type="button" class="btn btn-dark" value="Bình luận" onclick="addComment({{product.id}})"/>
+            <textarea id="commentId" class="form-control" style="padding-top:10px; padding-left:-5; margin-bottom:10px" placeholder="Nhập nội dung để bình luận..."></textarea>
+            <input type="button" class="btn btn-warning" style="background:#0d6efd"  value="Bình luận" onclick="addComment({{product.id}})"/>
         </div>
     </div>
     {%else%}

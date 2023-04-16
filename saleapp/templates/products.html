@@ -3,34 +3,43 @@
 {% block title %} Trang chu {% endblock %}
 
 {% block content %}
-<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-    {% for cate in cates %}
-    <a class="dropdown-item" href="/products?category_id={{cate.id}}">{{cate.name}}</a>
-    {% endfor %}
-</div>
+
 <img src="{{ url_for('static', filename='images/hero-bg.svg') }}" style="position: absolute; z-index:-1; top:-200px"
      alt="">
-<div class="products_total">
-    <div class="products__banner" style="margin-top:200px">
-        <form class="form-inline form__search">
+<!--<h1 class="title_products">Nhà sách OU</h1>-->
+<div class="dropdown" style="margin-top:96px">
+  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" style="font-size:18px;background: #ff6a00;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Danh mục sản phẩm</a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+       <a class="dropdown-item" href="/products" style="font-size:14px">Tất cả sản phẩm</a>
+      {% for cate in cates %}
+  <a class="dropdown-item" href="/products?category_id={{cate.id}}" style="font-size:14px">{{cate.name}}</a>
 
-            <input class="form-control mr-sm-2 search" name="keyword" type="search"
-                   placeholder="Nhập từ khóa để tìm kiếm..."
-                   aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img
-                    src="https://img.alicdn.com/imgextra/i1/O1CN01WaDuwO256WBsSocYY_!!6000000007477-2-tps-48-48.png"
-                    alt="">Tìm
-                kiếm
-            </button>
-        </form>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<div class="products__banner" style="">
+
+    <form class="form-inline form__search">
+
+        <input class="form-control mr-sm-2 search" name="keyword" type="search"
+               placeholder="Nhập từ khóa để tìm kiếm..."
+               aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img
+                src="https://img.alicdn.com/imgextra/i1/O1CN01WaDuwO256WBsSocYY_!!6000000007477-2-tps-48-48.png"
+                alt="">
+        </button>
+    </form>
+</div>
+<div class="products__main">
+
+    <div class="book__mark">
+        <box-icon type='solid' color="red" size='sm' name='bookmark'></box-icon>
+        <h4><i class='bx bxs-bookmark-star' style="color:red"></i> Danh mục sản phẩm</h4>
     </div>
-    <div class="products__main">
-
-        <div class="book__mark">
-            <box-icon type='solid' color="red" size='sm' name='bookmark'></box-icon>
-            <h4>Danh mục sản phẩm</h4>
-        </div>
-        {% if products %}
+    {% if products %}
 
         <div class="row">
             {% for p in products %}
@@ -53,22 +62,37 @@
             </div>
             {% endfor %}
         </div>
-        {% else %}
-        <h4 class="text-danger">Không có sản phầm nào!</h4>
-        {% endif %}
 
-        <ul class="pagination d-flex justify-content-center">
-            {%if pages > 1%}
-            {% for i in range(1, pages + 1) %}
-            <li class="page-item"><a class="page-link" href="{{url_for('product_list', page=i, category_id=cate_id)}}">{{i}}</a>
-            </li>
-            {% endfor %}
-            {%endif%}
-        </ul>
-    </div>
+    {% else %}
+    <h4 class="text-danger">Không có sản phầm nào!</h4>
+    {% endif %}
+
+    <ul class="pagination d-flex justify-content-center">
+        {%if pages > 1%}
+        {% for i in range(1, pages + 1) %}
+        <li class="page-item"><a class="page-link"
+                                 href="{{url_for('product_list', page=i, category_id=cate_id)}}">{{i}}</a>
+        </li>
+        {% endfor %}
+        {%endif%}
+    </ul>
+</div>
 </div>
 
+<script>
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
 
+dropdownToggle.addEventListener('click', function() {
+  dropdownMenu.classList.toggle('show');
+});
+
+window.addEventListener('click', function(e) {
+  if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+    dropdownMenu.classList.remove('show');
+  }
+});
+</script>
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../static/css/products.css"/>

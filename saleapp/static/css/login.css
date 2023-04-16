@@ -31,3 +31,9 @@
 a{
   text-decoration: none;
 }
+::placeholder{
+    font-size:16px;
+}
+input{
+    padding:10px !important;
+}

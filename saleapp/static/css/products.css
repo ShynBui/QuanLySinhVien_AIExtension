@@ -86,6 +86,68 @@ a{
 box-icon{
 
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  display: block;
+  padding: 8px 16px;
+  border: none;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  display: none;
+  min-width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f2f2f2;
+}
+.title_products{
+    position: absolute;
+    top:200px;
+    left:300px;
+}
+.card-title{
+    font-size:20px;
+}
+::placeholder{
+    font-size: 17px;
+}
+.show {
+  display: block;
+}
+
+
+@media screen and (max-width: 1920px) and(min-width : 1581px){
+    .col-md-3{
+        margin-right:300px;
+    }
+}
 
 @media screen and (max-width: 1580px) and (min-width: 1451px){
     /*.row{

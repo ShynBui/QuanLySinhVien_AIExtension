@@ -1,0 +1,33 @@
+table class = "table table-hover table-bordered table-sm">
+    <tr class="tr_head">
+        <th  class="th_head">
+            Mã sản phẩm
+        </th>
+        <th class="th_head">
+            Tên sản phẩm
+        </th>
+        <th class="th_head">
+            Giá thuê
+        </th>
+        <th class="th_head">
+            Số lượng
+        </th>
+
+    </tr>
+
+    {% for c in session['cart'].values() %}
+    <tr id = "product{{c.id}}">
+        <td>{{c.id}}</td>
+        <td>{{c.name}}</td>
+        <td>{{ (c.price) }} VNĐ</td>
+        <td>
+            <div class="form-group">
+                <input type="number" min="1" value="{{c.quantity}}" class="form-control" onblur="updateCart({{c.id}}, this)"/>
+            </div>
+        </td>
+        <td>
+            <input type="button" value="Xóa" class="btn1 btn-danger" style="padding:10px 15px; background:black; width:50%; color:white; border-radius:12px; margin: 0 auto;" onclick="deleteCart({{c.id}})"/>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

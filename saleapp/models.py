@@ -560,6 +560,28 @@ if __name__ == '__main__':
                     quantity=100, category_id=c.id, created_date=datetime.now())
         db.session.add(p)
         db.session.commit()
+        p = Product(name="Kinh tế lượng", description="None", price=3000,
+                    image="https://vinabook.com/product_source/detail/08/31428.jpg  ",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+
+        p = Product(name="Kinh tế vi mô", description="None", price=5000,
+                    image="https://s.elib.vn/images/fckeditor/upload/2021/20210107/images/giao-trinh-kinh-te-vi-mo2.jpg",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+        p = Product(name="Kinh tế lượng", description="None", price=3000,
+                    image="https://vinabook.com/product_source/detail/08/31428.jpg  ",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+
+        p = Product(name="Kinh tế vi mô", description="None", price=5000,
+                    image="https://s.elib.vn/images/fckeditor/upload/2021/20210107/images/giao-trinh-kinh-te-vi-mo2.jpg",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
 
         db.session.commit()
 
