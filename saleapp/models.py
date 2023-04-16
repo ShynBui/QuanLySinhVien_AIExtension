@@ -526,13 +526,35 @@ if __name__ == '__main__':
         db.session.add_all([pri1, pri2, pri3])
         db.session.commit()
 
-        #product
-        c = Category(name='Lap Trinh')
+        #product lap trinh
+        c = Category(name='Lập trình')
         db.session.add(c)
         db.session.commit()
 
-        p = Product(name="Hướng đối tượng", description="None", price=100000,
+        p = Product(name="Hướng đối tượng", description="None", price=10000,
                     image="https://ctgt.uit.edu.vn/sites/default/files/sach/21_0.jpg",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+
+        p = Product(name="Công nghệ phầm mềm", description="None", price=5000,
+                    image="https://scontent.webpluscnd.net/photos-df/a-0/3470-1904111-1/cong-nghe-phan-mem.png?atk=700b39a717e1cd7b8fe7d3567eb6e254",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+
+        c = Category(name='Kinh tế')
+        db.session.add(c)
+        db.session.commit()
+
+        p = Product(name="Kinh tế lượng", description="None", price=3000,
+                    image="https://vinabook.com/product_source/detail/08/31428.jpg  ",
+                    quantity=100, category_id=c.id, created_date=datetime.now())
+        db.session.add(p)
+        db.session.commit()
+
+        p = Product(name="Kinh tế vi mô", description="None", price=5000,
+                    image="https://s.elib.vn/images/fckeditor/upload/2021/20210107/images/giao-trinh-kinh-te-vi-mo2.jpg",
                     quantity=100, category_id=c.id, created_date=datetime.now())
         db.session.add(p)
         db.session.commit()
