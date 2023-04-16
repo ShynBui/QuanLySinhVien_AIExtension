@@ -1,8 +1,15 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
-
-<div class="stat_main" style="margin-top:150px">
+<style>
+    .btnSub{
+        margin-top: 30px;
+        padding:15px 30px;
+        border-radius:5px;
+        background-color: hsl(157.02deg 62.11% 44.51%);
+    }
+</style>
+<div class="stat_main" style="display:flex;flex-direction:column;width:60%; margin: 0 auto;margin-top:150px">
     <h1>Thống kê môn có điểm trung bình cao nhất theo khoa</h1>
 
 <form method="post" action="/stat1">
@@ -25,10 +32,10 @@
     <div class="form-group">
         <label>Top</label>
         <input type="number" name="top" class="form-control"
-               placeholder="Số lượng">
+               placeholder="Số lượng" style="padding:10px; border:1px solid">
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btnSub btn-primary">Submit</button>
 </form>
 
 <div>
@@ -57,6 +64,22 @@
       datasets: [{
         label: 'Thống kê top điểm trung bình theo môn theo khoa',
         data: data_diem,
+        backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
         borderWidth: 1
       }]
     },

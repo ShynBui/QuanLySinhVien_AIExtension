@@ -1,9 +1,24 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+<style>
+    @media screen and (max-width: 462px){
+        h1{
+            font-size:14px !important;
+        }
+        .chart{
+        display: flex;
+    width: 200px !important;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 20px !important;
+margin-bottom: 135px;
+        }
+    }
+</style>
 <div class="stat_main" style="margin-top:150px">
 <h1 style="display:flex; justify-content:center">Thống kê số lượng sinh viên theo từng khoa</h1>
-<div style="display: flex;
+<div class="chart" style="display: flex;
     width: 400px;
     justify-content: center;
     margin: 0 auto;

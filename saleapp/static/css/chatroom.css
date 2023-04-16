@@ -109,3 +109,27 @@ border-left: 1px solid;
     display:flex;
     align-items:center;
 }
+@media screen and (max-width: 768px) and (min-width: 576px){
+    .icon{
+     display :none;
+    }
+}
+@media screen and (max-width: 575px) and (min-width: 463px){
+    .icon{
+        display:none;
+    }
+    .header__chat > h1{
+        font-size:15px !important;
+    }
+}
+@media screen and (max-width: 462px){
+    .icon{
+     display:none;
+    }
+     img{
+        display:none !important;
+     }
+    .header__chat > h1{
+        font-size:13px !important;
+    }
+}
