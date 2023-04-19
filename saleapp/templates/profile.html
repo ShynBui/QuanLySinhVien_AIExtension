@@ -23,12 +23,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/315256594_1475404026274288_2347858660450415372_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OMXwsJ82g7MAX9eiI6T&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfDlQ7ixYpcKYM6YB-hY2t0LkPyZe3INOHwJTjwSv4eIKQ&oe=643B1080" alt="Admin"
+                            <img src="{{profile.avatar}}" alt="Admin"
                                  class="rounded-circle p-1 bg-primary" width="110">
                             <div class="mt-3">
                                 <h4>{{profile.name}}</h4>
                                 <p class="text-secondary mb-1">{{profile.maSo}}</p>
-                                <p class="text-muted font-size-sm">{{profile.email}}</p>
+                                <p class="text-muted font-size-sm">{{email}}</p>
                                 <div class="d-flex justify-content-center">
                                     {%if current_user.userRole == admin%}
                                     <form action="{{url_for('delete_user')}}" class="inline mr-1">
@@ -225,7 +225,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input name="email" type="text" class="form-control" value="{{profile.email}}">
+                                    <input name="email" type="text" class="form-control" value="{{email}}">
                                 </div>
                             </div>
                             <div class="row mb-3">

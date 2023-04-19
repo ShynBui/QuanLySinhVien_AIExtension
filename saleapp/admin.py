@@ -162,7 +162,15 @@ class ImportView(BaseView):
         return current_user.is_authenticated and (
                     current_user.userRole == UserRole.SYSADMIN or current_user.userRole == UserRole.NHANVIEN)
 
+class Register(BaseView):
+    @expose('/')
+    def __index__(self):
 
+        return redirect('/register')
+
+    def is_accessible(self):
+        return current_user.is_authenticated and (
+                    current_user.userRole == UserRole.SYSADMIN or current_user.userRole == UserRole.NHANVIEN)
 
 admin = Admin(app=app, name='QUẢN TRỊ SINH VIÊN', template_mode='bootstrap4',
               index_view=MyAdminIndex())
@@ -173,4 +181,5 @@ admin.add_view(Stat(name='Thống kê'))
 admin.add_view(DeleteView(name='Xóa sách'))
 admin.add_view(ImportView(name='Thêm sách'))
 admin.add_view(PayView(name='Hóa đơn'))
+admin.add_view(Register(name='Đăng kí'))
 admin.add_view(LogoutView(name='Logout'))

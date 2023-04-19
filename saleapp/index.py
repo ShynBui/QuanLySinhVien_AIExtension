@@ -10,6 +10,7 @@ import requests
 import pandas as pd
 import numpy as np
 from saleapp.time import *
+from saleapp.decoding import decoding_no1
 import openpyxl
 
 data = {'profile_id': "",
@@ -70,6 +71,7 @@ def chat_room():
 def profile(profile_id):
     data['profile_id'] = profile_id
     pro = untils.get_profile(profile_id)
+
     xh = "Xuất sắc"
     if pro.gpa >= 3.6 and pro.diemRL > 90:
         xh = "Xuất sắc"
@@ -96,6 +98,8 @@ def profile(profile_id):
 def profile_user():
     data['profile_id'] = current_user.maSo
     pro = untils.get_profile(current_user.maSo)
+
+    email = decoding_no1(pro.email)
     xh = "Xuất sắc"
     if pro.gpa >= 3.6 and pro.diemRL > 90:
         xh = "Xuất sắc"
@@ -114,7 +118,7 @@ def profile_user():
     allKhoa = untils.get_all_khoa()
 
     return render_template('profile.html', profile=pro, xh=xh, dob=dob, allNganh=allNganh,
-                           allKhoa=allKhoa, room=room)
+                           allKhoa=allKhoa, room=room, email=email)
 
 @app.route('/save_khoa')
 def save_khoa():
@@ -775,6 +779,16 @@ def user_register():
         diachi = request.form.get('diachi')
         confirm = request.form.get('confirm')
         avatar_path = None
+        temp = email.strip('@')[0]
+        maso = ''
+
+        for i in email:
+            try:
+                maso = maso + int(i)
+            except:
+                maso = maso + str(i)
+
+        print(name, password, email, username, sex, dob, phone, diachi, confirm, maso)
 
     try:
         if str(password) == str(confirm):
@@ -791,16 +805,18 @@ def user_register():
                             avatar=avatar_path,
                             sex=sex,
                             dob=dob,
-                            phone=phone)
+                            phone=phone, maSo=int(maso))
 
-            return redirect(url_for('user_signin'))
+
+            return redirect(url_for('/admin'))
         else:
             err_msg = "Mat khau khong khop"
             # print(err_msg)
     except Exception as ex:
         pass
         # err_msg = 'He thong ban' + str(ex)
-        # print(err_msg)
+
+    print(err_msg)
 
     return render_template('register.html', err_msg=err_msg)
 

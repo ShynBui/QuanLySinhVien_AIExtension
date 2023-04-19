@@ -61,10 +61,10 @@
             <ul class="navbar-item usermenu">
                 <a class="nav-link" href="{{url_for('profile_user')}}">
                     {%if current_user.avatar %}
-                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="30">
+                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="50">
 
                     {%else%}
-                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="30">
+                    <img class="rounded-circle" src="{{url_for('static', filename='images/phat.jpg')}}" width="50">
                     {%endif%}
                     <!--                        {{current_user.username}}-->
                 </a>

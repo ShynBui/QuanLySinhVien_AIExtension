@@ -10,7 +10,8 @@ import hashlib
 from sqlalchemy.sql import extract
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-
+from saleapp.decoding import decoding_no1
+from saleapp.encoding import encoding_no1
 
 def get_id_by_username(username):
     id = User.query.filter(User.username.__eq__(username))
@@ -657,14 +658,37 @@ def minus_product_quality(id, value):
     db.session.commit()
 
 
-def add_user(name, username, password, diachi, **kwargs):
+def add_user(name, username, password, diachi, queQuan, **kwargs):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    user = User(name=name.strip(), username=username, password=password, diachi=diachi,
-                email=kwargs.get('email'), avatar=kwargs.get('avatar'))
-
-    db.session.add(user)
+    # print(kwargs.get('dob'))
+    maso = kwargs.get('maSo')
+    avatar = kwargs.get('avatar')
+    lop = Lop.query.get(1)
+    sv = SinhVien(idLop=lop.id)
+    sv.session.add(sv)
     db.session.commit()
 
+
+    user = User(name=name.strip(), username=username, password=password, email=encoding_no1(kwargs.get('email')),diachi=diachi, queQuan=queQuan,
+                 dob=kwargs.get('dob'), sdt=kwargs.get('phone'), idPerson=sv.id, maSo=maso,joined_date=datetime.now(), userRole=UserRole.SINHVIEN,
+                avatar=avatar)
+
+    db.session.add_all([user])
+
+    db.session.commit()
+
+    room = Room(name="Room của " + name.strip())
+
+    db.session.add(room)
+
+    db.session.commit()
+
+    message = Message(room_id=room.id, user_id=user.id)
+
+    db.session.add(message)
+
+    db.session.commit()
+    print("a")
 
 def get_date_receipt(id):
     return Receipt.query.filter(Receipt.id.__eq__(id)).first().created_date

@@ -5,6 +5,7 @@ from datetime import datetime
 from enum import Enum as UserEnum
 from flask_login import UserMixin
 import hashlib
+from saleapp.encoding import encoding_no1
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -434,6 +435,11 @@ if __name__ == '__main__':
                        password=password, email="2051052096phat@ou.edu.vn", joined_date=datetime.now(),
                        diachi="Gò Vấp", userRole=UserRole.SINHVIEN, idPerson=sv1.id,
                         dob=datetime.strptime("24-06-2002", '%d-%m-%Y').date(), avatar="https://scontent.fsgn15-1.fna.fbcdn.net/v/t39.30808-6/315256594_1475404026274288_2347858660450415372_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ZKRXaulcyVsAX-XMJne&_nc_ht=scontent.fsgn15-1.fna&oh=00_AfAPEzBUT-I_d3sLAw7z6TJEe1BlCY0_9vPWimTpeRLvKw&oe=642B3E80")
+        user1.email = encoding_no1(user1.email)
+        db.session.add(user1)
+        db.session.commit()
+
+
         user2 = User(name= "Nguyễn Đức Hoàng", maSo= "2051052047", username="2051052047hoang@ou.edu.vn",
                        password=password, email="2051052047hoang@ou.edu.vn", joined_date=datetime.now(),
                        diachi="Gò Vấp", userRole=UserRole.SINHVIEN, idPerson=sv2.id,
@@ -466,7 +472,7 @@ if __name__ == '__main__':
                      password=password, email="GV04@ou.edu.vn", joined_date=datetime.now(),
                      diachi="Gò Vấp 3", userRole=UserRole.GIANGVIEN, idPerson=giangvien4.id,
                      dob=datetime.strptime("21-01-1990", '%d-%m-%Y').date(), sex=0)
-        db.session.add_all([user1, user2, user3, user4, user5, user6, user7, user8, user9])
+        db.session.add_all([user2, user3, user4, user5, user6, user7, user8, user9])
         db.session.commit()
 
         #room
