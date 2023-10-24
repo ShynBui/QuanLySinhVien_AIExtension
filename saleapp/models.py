@@ -41,6 +41,7 @@ class User(BaseModel, UserMixin):
     message = relationship('Message', backref='user', lazy=True)
     comment = relationship('Comment', backref='user', lazy=True)
     user_receipt = relationship('UserReceipt', backref='user', lazy=True)
+    response = relationship('Response', backref='user', lazy=True)
 
     def __str__(self):
         return self.name
@@ -340,11 +341,18 @@ class Rule(BaseModel):
     value = Column(Integer, nullable=False)
     description = Column(Text)
 
+class Response(BaseModel):
+    question = Column(String(100), nullable=False, unique=True)
+    answer = Column(Text)
+    context = Column(Text)
+    isTrue = Column(Boolean, default=False)
+
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False, primary_key=True)
 
 if __name__ == '__main__':
     with app.app_context():
 
-        db.drop_all()
+        # db.drop_all()
         db.create_all()
         password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
 
@@ -590,5 +598,15 @@ if __name__ == '__main__':
         db.session.commit()
 
         db.session.commit()
+        #Rule
+
+        r1 = Rule(name='TIME', value=72)
+        r2 = Rule(name='MINIMUM_IMPORT', value=150)
+        r3 = Rule(name='MINIMUM_LIMIT', value=100)
+
+        db.session.add_all([r1, r2, r3])
+
+        db.session.commit()
+
 
         db.session.commit()

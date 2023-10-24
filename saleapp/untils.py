@@ -1,6 +1,6 @@
 from saleapp.models import User, UserRole, Room, Message, SinhVien, HocKi, Lop, Nganh, KhoaHoc, Khoa,HeDaoTao, \
     GiangVien, Diem, MonHoc, Category, Rule, PhieuNhapSach, ChiTietNhapSach, Product, User, UserRole, SachTacGia, Receipt, \
-    ReceiptDetail, Comment, UserReceipt, TacGia
+    ReceiptDetail, Comment, UserReceipt, TacGia, Response
 from flask_login import current_user
 from sqlalchemy import func, and_, desc, or_
 from saleapp import app, db, question_answerer, model_multiple, model_gk_ck_nhapmon, summarizer
@@ -175,6 +175,7 @@ def get_chatroom_by_id(id):
 
 
 def get_profile(mssv):
+    print(mssv)
     p = db.session.query(User.id.label('user_id'), User.avatar, User.email, User.name, User.sdt, User.diachi,
                          SinhVien.gpa,
                          User.maSo, SinhVien.diemHeMuoi, SinhVien.soTinChiDaHoc,
@@ -1021,3 +1022,70 @@ def product_count_month_stats(month=12):
         return p.all()
 
     return {}
+
+
+#Chatbot
+from saleapp import retriever, question_answerer, model_translate, tokenizer
+from langchain.document_transformers import (
+    LongContextReorder,
+)
+
+def answer_question_ask(query):
+    outputs = model_translate.generate(
+        tokenizer('vi: ' + query, return_tensors="pt", padding=True).input_ids.to('cpu'),
+        max_length=512)
+
+    query = (tokenizer.batch_decode(outputs, skip_special_tokens=True)[0][3:])
+    print('query: ', query)
+    docs = retriever.get_relevant_documents(query.lower(), search_type="mmr", search_kwargs={"k": 5})
+
+    context = docs[0].page_content.lower()
+    print(context)
+
+    # print(docs)
+
+    ans = question_answerer(question=query.lower(), context=context)
+    print(ans['answer'], ans['score'])
+    outputs = model_translate.generate(tokenizer('en: ' + ans['answer'], return_tensors="pt", padding=True).input_ids.to('cpu'),
+                                       max_length=512)
+    answer = (tokenizer.batch_decode(outputs, skip_special_tokens=True)[0][3:])
+    return (
+        {'score': ans['score'],
+         'start': ans['start'],
+         'end': ans['end'],
+         'answer': answer
+         }
+    )
+
+
+def answer_question_ask2(query):
+    docs = retriever.get_relevant_documents(query.lower(), search_type="mmr", search_kwargs={"k": 5})
+    # reordering = LongContextReorder()
+    # reordered_docs = reordering.transform_documents(docs)
+    # context = reordered_docs[-1].page_content
+    # print(len(docs))
+    print(docs[0])
+    context = docs[0].page_content.lower()
+
+    # for i in range(len(docs)):
+    #     context = docs[i].page_content.lower()
+    #     ans = question_answerer(question=rdrsegmenter.word_segment(query.lower())[0],
+    #                             context=rdrsegmenter.word_segment(context)[0])
+    #     print(ans['answer'], ans['score'])
+    ans = question_answerer(question=query.lower(), context=context)
+    print(ans['answer'], ans['score'])
+    return (
+        {'score': ans['score'],
+         'start': ans['start'],
+         'end': ans['end'],
+         'answer': ans['answer']
+         }
+    )
+
+def add_response(question, answer):
+
+    response = Response(answer=answer, question=question, user_id = current_user.id)
+
+    db.session.add(response)
+
+    db.session.commit()

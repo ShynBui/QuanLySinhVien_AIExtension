@@ -24,6 +24,34 @@ def home():
     return render_template('index.html')
 
 
+#Chatbot
+@app.route("/chatbox", methods=['post', 'get'])
+def chatbox():
+    question = 'eee'
+
+    if request.method == 'POST':
+        question = request.form.get('question').strip()
+        answer = request.form.get('answer').strip()
+
+        if question and answer:
+            untils.add_response(question=question, answer=answer)
+
+    return render_template('chat_box.html')
+
+
+@app.route('/process_data', methods=['POST'])
+def process_data():
+    data = request.json  # Lấy dữ liệu được gửi từ JavaScript
+    # Xử lý dữ liệu ở đây\
+    print(data)
+    data_new = (untils.answer_question_ask(data['message']))
+
+    # Trả về kết quả dưới dạng JSON
+    response = {
+        'answer': data_new['answer'].replace("_", ' '),
+        'score': data_new['score']
+    }
+    return jsonify(response)
 
 # socket
 
@@ -69,6 +97,7 @@ def chat_room():
 
 @app.route("/profile/<profile_id>", methods=['post', 'get'])
 def profile(profile_id):
+    print('pro', profile_id)
     data['profile_id'] = profile_id
     pro = untils.get_profile(profile_id)
 

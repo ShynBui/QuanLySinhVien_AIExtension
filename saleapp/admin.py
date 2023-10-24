@@ -1,6 +1,6 @@
 import cloudinary.uploader
 
-from saleapp.models import UserRole
+from saleapp.models import UserRole, UserReceipt
 from saleapp import app, db, untils
 from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
